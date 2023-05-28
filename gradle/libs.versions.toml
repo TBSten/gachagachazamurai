@@ -42,6 +42,8 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 
 coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine-android" }
 
+icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

@@ -3,27 +3,21 @@ package me.tbsten.gachagachazamurai
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import me.tbsten.gachagachazamurai.gacha.GachaScreen
-import me.tbsten.gachagachazamurai.prize.PrizeListScreen
-import me.tbsten.gachagachazamurai.qr.TwitterQrScreen
-import me.tbsten.gachagachazamurai.top.TopScreen
+import me.tbsten.gachagachazamurai.component.AppBottomBar
+import me.tbsten.gachagachazamurai.screens.Screen
+import me.tbsten.gachagachazamurai.screens.screenNavigation
 import me.tbsten.gachagachazamurai.ui.theme.GachaGachaZamuraiTheme
 
 @AndroidEntryPoint
@@ -48,18 +42,29 @@ class MainActivity : ComponentActivity() {
 fun AppRoot() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "top") {
-        composable("top") {
-            TopScreen()
+    Scaffold(
+        bottomBar = {
+            AppBottomBar(
+                route = navController.currentDestination?.route,
+                onChangeRoute = {
+                    navController.navigate(it) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+            )
         }
-        composable("gacha") {
-            GachaScreen()
-        }
-        composable("prize") {
-            PrizeListScreen()
-        }
-        composable("qr") {
-            TwitterQrScreen()
+    ) {
+        Box(Modifier.padding(it)) {
+            NavHost(navController = navController, startDestination = "top") {
+                screenNavigation(Screen.TopScreen)
+                screenNavigation(Screen.GachaScreen)
+                screenNavigation(Screen.PrizeScreen)
+                screenNavigation(Screen.QrScreen)
+            }
         }
     }
 
