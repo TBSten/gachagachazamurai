@@ -10,7 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import me.tbsten.gachagachazamurai.gacha.GachaScreen
+import me.tbsten.gachagachazamurai.prize.PrizeListScreen
+import me.tbsten.gachagachazamurai.qr.TwitterQrScreen
+import me.tbsten.gachagachazamurai.top.TopScreen
 import me.tbsten.gachagachazamurai.ui.theme.GachaGachaZamuraiTheme
 
 @AndroidEntryPoint
@@ -24,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    AppRoot()
                 }
             }
         }
@@ -32,17 +39,22 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun AppRoot() {
+    val navController = rememberNavController()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GachaGachaZamuraiTheme {
-        Greeting("Android")
+    NavHost(navController = navController, startDestination = "top") {
+        composable("top") {
+            TopScreen()
+        }
+        composable("gacha") {
+            GachaScreen()
+        }
+        composable("prize") {
+            PrizeListScreen()
+        }
+        composable("qr") {
+            TwitterQrScreen()
+        }
     }
+
 }
