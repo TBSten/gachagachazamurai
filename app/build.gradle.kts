@@ -80,6 +80,9 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
+    // hilt navigation compose
+    implementation(libs.hilt.navigation.compose)
+
     // coroutine
     implementation(libs.coroutine.android)
 }
