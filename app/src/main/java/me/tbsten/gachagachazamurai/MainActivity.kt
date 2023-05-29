@@ -72,7 +72,10 @@ fun AppRoot() {
         Box(Modifier.padding(it)) {
             NavHost(navController = navController, startDestination = "top") {
                 screenNavigation(Screen.TopScreen) {
-                    TopScreenContent()
+                    TopScreenContent(
+                        gotoGachaScreen = { navController.navigate(Screen.GachaScreen.route) },
+                        gotoPrizeScreen = { navController.navigate(Screen.PrizeScreen.route) },
+                    )
                 }
                 screenNavigation(Screen.GachaScreen) {
                     GachaScreenContent()
