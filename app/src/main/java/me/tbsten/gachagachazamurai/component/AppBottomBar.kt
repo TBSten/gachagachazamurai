@@ -13,7 +13,7 @@ private val items = listOf(
 
 @Composable
 fun AppBottomBar(
-    route: String?,
+    isSelected: (route: String) -> Boolean,
     onChangeRoute: (route: String) -> Unit,
 ) {
     NavigationBar {
@@ -21,7 +21,7 @@ fun AppBottomBar(
             NavigationBarItem(
                 icon = { it.icon?.invoke() },
                 label = { it.name?.invoke() },
-                selected = it.route === route,
+                selected = isSelected(it.route),
                 onClick = { onChangeRoute(it.route) },
             )
         }

@@ -10,14 +10,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import me.tbsten.gachagachazamurai.component.AppBottomBar
+import me.tbsten.gachagachazamurai.gacha.GachaScreenContent
+import me.tbsten.gachagachazamurai.prize.PrizeListScreenContent
+import me.tbsten.gachagachazamurai.qr.TwitterQrScreenContent
 import me.tbsten.gachagachazamurai.screens.Screen
 import me.tbsten.gachagachazamurai.screens.screenNavigation
+import me.tbsten.gachagachazamurai.top.TopScreenContent
 import me.tbsten.gachagachazamurai.ui.theme.GachaGachaZamuraiTheme
 
 @AndroidEntryPoint
@@ -41,11 +48,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppRoot() {
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
     Scaffold(
         bottomBar = {
             AppBottomBar(
-                route = navController.currentDestination?.route,
+                isSelected = { route ->
+                    currentDestination?.hierarchy?.any { it.route == route } == true
+                },
                 onChangeRoute = {
                     navController.navigate(it) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -60,10 +71,18 @@ fun AppRoot() {
     ) {
         Box(Modifier.padding(it)) {
             NavHost(navController = navController, startDestination = "top") {
-                screenNavigation(Screen.TopScreen)
-                screenNavigation(Screen.GachaScreen)
-                screenNavigation(Screen.PrizeScreen)
-                screenNavigation(Screen.QrScreen)
+                screenNavigation(Screen.TopScreen) {
+                    TopScreenContent()
+                }
+                screenNavigation(Screen.GachaScreen) {
+                    GachaScreenContent()
+                }
+                screenNavigation(Screen.PrizeScreen) {
+                    PrizeListScreenContent()
+                }
+                screenNavigation(Screen.QrScreen) {
+                    TwitterQrScreenContent()
+                }
             }
         }
     }
