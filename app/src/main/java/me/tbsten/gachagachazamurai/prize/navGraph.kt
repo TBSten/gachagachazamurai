@@ -2,11 +2,21 @@ package me.tbsten.gachagachazamurai.prize
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import me.tbsten.gachagachazamurai.screens.Screen
-import me.tbsten.gachagachazamurai.screens.composable
 
 fun NavGraphBuilder.prizeScreen(navController: NavController) {
-    composable(Screen.PrizeScreen) {
-        PrizeListScreenContent()
+    navigation(route = Screen.PrizeScreen.route, startDestination = "list") {
+        composable(route = "list") {
+            PrizeListScreenContent(
+                showNewPrizeDialog = { navController.navigate("new") }
+            )
+        }
+        composable(route = "new") {
+            NewPrizeDialog(
+                backPrevScreen = { navController.popBackStack("list", false) },
+            )
+        }
     }
 }

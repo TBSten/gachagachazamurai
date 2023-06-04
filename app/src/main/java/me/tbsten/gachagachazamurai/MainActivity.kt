@@ -18,6 +18,7 @@ import me.tbsten.gachagachazamurai.component.BottomBar
 import me.tbsten.gachagachazamurai.gacha.gachaScreen
 import me.tbsten.gachagachazamurai.prize.prizeScreen
 import me.tbsten.gachagachazamurai.qr.qrScreen
+import me.tbsten.gachagachazamurai.screens.Screen
 import me.tbsten.gachagachazamurai.top.topScreen
 import me.tbsten.gachagachazamurai.ui.theme.GachaGachaZamuraiTheme
 
@@ -45,10 +46,10 @@ fun AppRoot() {
     Scaffold(
         bottomBar = {
             BottomBar(navController)
-        }
+        },
     ) {
         Box(Modifier.padding(it)) {
-            NavHost(navController = navController, startDestination = "top") {
+            NavHost(navController, startDestination = Screen.TopScreen.route) {
                 topScreen(navController)
                 gachaScreen(navController)
                 prizeScreen(navController)
@@ -58,3 +59,5 @@ fun AppRoot() {
     }
 
 }
+
+

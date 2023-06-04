@@ -84,8 +84,6 @@ fun GachaScreenContent(
             onChangeStep = { step = it }
         )
 
-        Text("${step.name}(${step.stepIndex})")
-
     }
 
     Capsule(

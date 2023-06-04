@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 
 sealed class Screen(
     val route: String,
+    // bottom navigation
     val icon: (@Composable () -> Unit)?,
     val name: (@Composable () -> Unit)?,
 ) {
