@@ -1,6 +1,5 @@
 package me.tbsten.gachagachazamurai.top
 
-import android.util.Log
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -66,7 +65,6 @@ fun TopScreenContent(
                     75f * 60,
                     tween(durationMillis = 1000 * 60, easing = LinearEasing)
                 )
-                Log.d("test", "animation")
             }
         }
 

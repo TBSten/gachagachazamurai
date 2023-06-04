@@ -23,7 +23,7 @@ import me.tbsten.gachagachazamurai.gacha.GachaScreenContent
 import me.tbsten.gachagachazamurai.prize.PrizeListScreenContent
 import me.tbsten.gachagachazamurai.qr.TwitterQrScreenContent
 import me.tbsten.gachagachazamurai.screens.Screen
-import me.tbsten.gachagachazamurai.screens.screenNavigation
+import me.tbsten.gachagachazamurai.screens.composable
 import me.tbsten.gachagachazamurai.top.TopScreenContent
 import me.tbsten.gachagachazamurai.ui.theme.GachaGachaZamuraiTheme
 
@@ -71,19 +71,26 @@ fun AppRoot() {
     ) {
         Box(Modifier.padding(it)) {
             NavHost(navController = navController, startDestination = "top") {
-                screenNavigation(Screen.TopScreen) {
+                composable(Screen.TopScreen) {
                     TopScreenContent(
                         gotoGachaScreen = { navController.navigate(Screen.GachaScreen.route) },
                         gotoPrizeScreen = { navController.navigate(Screen.PrizeScreen.route) },
                     )
                 }
-                screenNavigation(Screen.GachaScreen) {
-                    GachaScreenContent()
+                composable(Screen.GachaScreen) {
+                    GachaScreenContent(
+                        backToTop = {
+                            navController.popBackStack(Screen.TopScreen.route, false)
+                        },
+                        renavigateGacha = {
+                            navController.navigate(Screen.GachaScreen.route)
+                        },
+                    )
                 }
-                screenNavigation(Screen.PrizeScreen) {
+                composable(Screen.PrizeScreen) {
                     PrizeListScreenContent()
                 }
-                screenNavigation(Screen.QrScreen) {
+                composable(Screen.QrScreen) {
                     TwitterQrScreenContent()
                 }
             }

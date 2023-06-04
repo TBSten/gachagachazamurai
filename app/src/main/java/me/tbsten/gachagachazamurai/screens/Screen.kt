@@ -41,7 +41,7 @@ sealed class Screen(
 
 }
 
-fun NavGraphBuilder.screenNavigation(screen: Screen, content: @Composable () -> Unit) {
+fun NavGraphBuilder.composable(screen: Screen, content: @Composable () -> Unit) {
     this.composable(screen.route) {
         content()
     }

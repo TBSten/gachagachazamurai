@@ -1,5 +1,5 @@
 [versions]
-agp = "8.2.0-alpha04"
+agp = "8.2.0-alpha06"
 kotlin = "1.8.10"
 core-ktx = "1.10.1"
 junit = "4.13.2"
@@ -16,6 +16,10 @@ hilt = "2.44"
 hilt-navigation-compose = "1.0.0"
 
 coroutine-android = "1.7.1"
+
+constraintlayout-compose = "1.0.1"
+appcompat = "1.6.1"
+material = "1.9.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -44,10 +48,15 @@ coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutine
 
 icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 
+constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout-compose" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
 [bundles]
 

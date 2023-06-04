@@ -84,6 +84,11 @@ dependencies {
 
     // coroutine
     implementation(libs.coroutine.android)
+
+    // constraintlayout
+    implementation(libs.constraintlayout.compose)
+
+    implementation(project(mapOf("path" to ":domain")))
 }
 
 kapt {
