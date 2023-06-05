@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.prize
+package me.tbsten.gachagachazamurai.prize.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

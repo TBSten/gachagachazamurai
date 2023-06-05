@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.prize
+package me.tbsten.gachagachazamurai.prize.edit
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

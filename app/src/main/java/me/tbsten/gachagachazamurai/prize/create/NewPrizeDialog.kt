@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.prize
+package me.tbsten.gachagachazamurai.prize.create
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import me.tbsten.gachagachazamurai.domain.PrizeItem
+import me.tbsten.gachagachazamurai.prize.edit.PrizeEdit
 
 val DEFAULT_INPUT_PRIZE_ITEM = PrizeItem(
     id = 0,
