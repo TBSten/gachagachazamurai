@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -102,6 +103,7 @@ val stockShortcuts = mapOf(
     "10" to 10,
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StockEdit(
     stock: Int,
@@ -109,9 +111,9 @@ fun StockEdit(
     modifier: Modifier = Modifier,
 ) {
     var openDialog by remember { mutableStateOf(false) }
-    OutlinedButton(onClick = { openDialog = true }, modifier = modifier) {
+    SuggestionChip(onClick = { openDialog = true }, modifier = modifier, label = {
         Text("ストック:$stock")
-    }
+    })
     if (openDialog) {
         Dialog(
             onDismissRequest = { openDialog = false }
@@ -167,9 +169,9 @@ fun SelectRarity(
 ) {
     val bottomSheetState = rememberModalBottomSheetState()
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-    OutlinedButton(onClick = { openBottomSheet = true }, modifier = modifier) {
+    SuggestionChip(onClick = { openBottomSheet = true }, modifier = modifier, label = {
         Text("レア度:${rarity.displayName}")
-    }
+    })
     if (openBottomSheet) {
         ModalBottomSheet(
             shape = MaterialTheme.shapes.medium,
