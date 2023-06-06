@@ -40,6 +40,12 @@ sealed class Screen(
         name = { Text("Twitter") },
     )
 
+    object SettingScreen : Screen(
+        route = "setting",
+        icon = null,
+        name = null,
+    )
+
 }
 
 fun NavGraphBuilder.composable(screen: Screen, content: @Composable () -> Unit) {

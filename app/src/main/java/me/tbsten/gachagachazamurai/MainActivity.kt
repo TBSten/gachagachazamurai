@@ -19,6 +19,7 @@ import me.tbsten.gachagachazamurai.gacha.gachaScreen
 import me.tbsten.gachagachazamurai.prize.prizeScreen
 import me.tbsten.gachagachazamurai.qr.qrScreen
 import me.tbsten.gachagachazamurai.screens.Screen
+import me.tbsten.gachagachazamurai.screens.settingScreen
 import me.tbsten.gachagachazamurai.top.topScreen
 import me.tbsten.gachagachazamurai.ui.theme.GachaGachaZamuraiTheme
 
@@ -54,6 +55,7 @@ fun AppRoot() {
                 gachaScreen(navController)
                 prizeScreen(navController)
                 qrScreen(navController)
+                settingScreen(navController)
             }
         }
     }
