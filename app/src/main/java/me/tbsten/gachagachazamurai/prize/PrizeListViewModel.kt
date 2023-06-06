@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import me.tbsten.gachagachazamurai.data.prizeItem.PrizeItemRepository
+import me.tbsten.gachagachazamurai.database.prizeItem.PrizeItemRepository
 import me.tbsten.gachagachazamurai.domain.PrizeItem
 import javax.inject.Inject
 

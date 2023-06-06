@@ -89,7 +89,7 @@ dependencies {
     implementation(libs.constraintlayout.compose)
 
     implementation(project(mapOf("path" to ":domain")))
-    implementation(project(mapOf("path" to ":data")))
+    implementation(project(mapOf("path" to ":database")))
 }
 
 kapt {

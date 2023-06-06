@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.data
+package me.tbsten.gachagachazamurai.database
 
 import androidx.room.TypeConverter
 import me.tbsten.gachagachazamurai.domain.PrizeItem

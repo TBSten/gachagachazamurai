@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.data.prizeItem
+package me.tbsten.gachagachazamurai.database.prizeItem
 
 import androidx.room.Dao
 import androidx.room.Delete

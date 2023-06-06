@@ -1,6 +1,6 @@
-package me.tbsten.gachagachazamurai.data.prizeItem
+package me.tbsten.gachagachazamurai.database.prizeItem
 
-import me.tbsten.gachagachazamurai.data.AppDatabase
+import me.tbsten.gachagachazamurai.database.AppDatabase
 import me.tbsten.gachagachazamurai.domain.PrizeItem
 import javax.inject.Inject
 

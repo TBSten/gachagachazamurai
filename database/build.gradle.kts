@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "me.tbsten.gachagachazamurai.data"
+    namespace = "me.tbsten.gachagachazamurai.database"
     compileSdk = 33
 
     defaultConfig {

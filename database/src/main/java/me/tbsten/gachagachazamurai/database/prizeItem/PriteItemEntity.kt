@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.data.prizeItem
+package me.tbsten.gachagachazamurai.database.prizeItem
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.data
+package me.tbsten.gachagachazamurai.database
 
 import android.content.Context
 import androidx.room.Room
