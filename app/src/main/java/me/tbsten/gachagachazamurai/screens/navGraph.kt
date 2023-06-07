@@ -17,6 +17,9 @@ fun NavGraphBuilder.settingScreen(navController: NavController) {
             gotoTopImageEditScreen = {
                 navController.navigate(Screen.SettingScreen.TopImageEdit.route)
             },
+            gotoThanksEditScreen = {
+                navController.navigate(Screen.SettingScreen.ThanksEdit.route)
+            },
         )
     }
     composable(Screen.SettingScreen.TopImageEdit) {

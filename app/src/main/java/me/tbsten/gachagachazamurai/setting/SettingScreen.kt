@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun SettingScreenContent(
     settingViewModel: SettingViewModel = hiltViewModel(),
     gotoTopImageEditScreen: () -> Unit,
+    gotoThanksEditScreen: () -> Unit,
 ) {
 
     LazyColumn {
@@ -23,6 +24,14 @@ fun SettingScreenContent(
                 },
                 modifier = Modifier.clickable {
                     gotoTopImageEditScreen()
+                },
+            )
+            ListItem(
+                headlineContent = {
+                    Text("Thanks")
+                },
+                modifier = Modifier.clickable {
+                    gotoThanksEditScreen()
                 },
             )
         }
