@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.tbsten.gachagachazamurai.R
+import me.tbsten.gachagachazamurai.component.clickableNoRipple
 
 val images = listOf(
     R.drawable.milabo1,
@@ -55,6 +57,7 @@ val images = listOf(
 fun TopScreenContent(
     gotoGachaScreen: () -> Unit,
     gotoPrizeScreen: () -> Unit,
+    gotoSettingScreen: () -> Unit,
 ) {
     BoxWithConstraints(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         val lazyRowState = rememberLazyListState(Int.MAX_VALUE / 2)
@@ -66,6 +69,9 @@ fun TopScreenContent(
                 )
             }
         }
+
+        val scope = rememberCoroutineScope()
+        var count by remember { mutableStateOf(0) }
 
         LazyRow(
             state = lazyRowState,
@@ -80,6 +86,14 @@ fun TopScreenContent(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
+                        .clickableNoRipple {
+                            scope.launch {
+                                count++
+                                if (count >= 5) gotoSettingScreen()
+                                delay(3000)
+                                count = 0
+                            }
+                        }
                         .wrapContentWidth()
                         .fillMaxHeight(),
                 )

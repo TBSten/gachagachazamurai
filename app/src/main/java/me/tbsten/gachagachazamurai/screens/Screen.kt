@@ -44,7 +44,19 @@ sealed class Screen(
         route = "setting",
         icon = null,
         name = null,
-    )
+    ) {
+        object TopImageEdit : Screen(
+            route = "setting/topImageEdit",
+            icon = null,
+            name = null,
+        )
+
+        object ThanksEdit : Screen(
+            route = "setting/thanksEdit",
+            icon = null,
+            name = null,
+        )
+    }
 
 }
 

@@ -10,6 +10,7 @@ fun NavGraphBuilder.topScreen(navController: NavController) {
         TopScreenContent(
             gotoGachaScreen = { navController.navigate(Screen.GachaScreen.route) },
             gotoPrizeScreen = { navController.navigate(Screen.PrizeScreen.route) },
+            gotoSettingScreen = { navController.navigate(Screen.SettingScreen.route) },
         )
     }
 }
