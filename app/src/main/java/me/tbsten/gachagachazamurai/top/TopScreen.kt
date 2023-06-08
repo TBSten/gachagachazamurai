@@ -3,7 +3,6 @@ package me.tbsten.gachagachazamurai.top
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,11 +33,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.tbsten.gachagachazamurai.R
@@ -58,7 +60,10 @@ fun TopScreenContent(
     gotoGachaScreen: () -> Unit,
     gotoPrizeScreen: () -> Unit,
     gotoSettingScreen: () -> Unit,
+    topViewModel: TopViewModel = hiltViewModel(),
 ) {
+    val images = topViewModel.images.collectAsState().value
+
     BoxWithConstraints(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         val lazyRowState = rememberLazyListState(Int.MAX_VALUE / 2)
         LaunchedEffect(Unit) {
@@ -73,32 +78,48 @@ fun TopScreenContent(
         val scope = rememberCoroutineScope()
         var count by remember { mutableStateOf(0) }
 
-        LazyRow(
-            state = lazyRowState,
-            modifier = Modifier
-                .wrapContentWidth()
-                .fillMaxHeight(),
-            userScrollEnabled = false,
-        ) {
-            items(count = Int.MAX_VALUE) {
-                Image(
-                    painter = painterResource(images[(Math.random() * images.size).toInt()]),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .clickableNoRipple {
-                            scope.launch {
-                                count++
-                                if (count >= 5) gotoSettingScreen()
-                                delay(3000)
-                                count = 0
+        if (images != null) {
+            LazyRow(
+                state = lazyRowState,
+                modifier = Modifier
+                    .background(Color.Blue)
+                    .fillMaxSize(),
+                userScrollEnabled = false,
+            ) {
+                items(count = Int.MAX_VALUE) {
+                    AsyncImage(
+                        model = images[(Math.random() * images.size).toInt()],
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .clickableNoRipple {
+                                scope.launch {
+                                    count++
+                                    if (count >= 5) gotoSettingScreen()
+                                    delay(3000)
+                                    count = 0
+                                }
                             }
-                        }
-                        .wrapContentWidth()
-                        .fillMaxHeight(),
-                )
+                            .wrapContentWidth()
+                            .fillMaxHeight(),
+                    )
+                }
             }
+        } else {
+            Box(Modifier
+                .background(Color.Red)
+                .clickableNoRipple {
+                    scope.launch {
+                        count++
+                        if (count >= 5) gotoSettingScreen()
+                        delay(3000)
+                        count = 0
+                    }
+                }
+                .fillMaxSize()
+            )
         }
+
         TitlePane(
             modifier = Modifier
                 .padding(8.dp)
