@@ -34,10 +34,10 @@ sealed class Screen(
         name = { Text("中身") },
     )
 
-    object QrScreen : Screen(
-        route = "qr",
-        icon = { Icon(Icons.Default.AccountBalanceWallet, contentDescription = "qr") },
-        name = { Text("Twitter") },
+    object ThanksScreen : Screen(
+        route = "thanks",
+        icon = { Icon(Icons.Default.AccountBalanceWallet, contentDescription = "thanks") },
+        name = { Text("Thanks") },
     )
 
     object SettingScreen : Screen(

@@ -8,7 +8,7 @@ import me.tbsten.gachagachazamurai.screens.Screen
 private val items = listOf(
     Screen.GachaScreen,
     Screen.PrizeScreen,
-    Screen.QrScreen,
+    Screen.ThanksScreen,
 )
 
 @Composable
