@@ -19,7 +19,7 @@ class TopScreenImageRepository @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
     private val imagesDir: File
-        get() = context.filesDir.resolve("topScreenImages")
+        get() = context.topScreenImagesDir
 
     fun getTopScreenImages(): List<File>? {
         if (!imagesDir.exists()) return listOf()
@@ -54,6 +54,9 @@ class TopScreenImageRepository @Inject constructor(
     }
 
 }
+
+val Context.topScreenImagesDir
+    get() = filesDir.resolve("topScreenImages")
 
 fun Path.deleteRecursive() {
     if (!Files.exists(this)) return

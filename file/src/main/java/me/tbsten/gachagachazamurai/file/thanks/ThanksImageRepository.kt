@@ -13,27 +13,31 @@ class ThanksImageRepository @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
     private val imagesDir: File
-        get() = context.filesDir.resolve("thanks")
+        get() = context.thanksImageDir
 
-    fun saveImages(map: Map<Int, Uri>) {
-        val resolver = context.contentResolver
-        map.forEach { (id, uri) ->
-            val inputStream = resolver.openInputStream(uri)
-            inputStream.use { input ->
-                if (input == null) return
-                val destPath = "$id"
-                Files.copy(
-                    input,
-                    imagesDir.resolve(destPath).toPath(),
-                    StandardCopyOption.REPLACE_EXISTING,
-                )
-            }
-        }
+    fun saveImages(id: Int, uri: Uri) {
+        saveImages("$id", uri)
     }
 
-    fun getImageUri(id: Int) =
-        Uri.fromFile(imagesDir.resolve("$id"))
+    fun saveImages(name: String, uri: Uri) {
+        val resolver = context.contentResolver
+        if (!imagesDir.exists()) Files.createDirectory(imagesDir.toPath())
+        val inputStream = resolver.openInputStream(uri)
+        inputStream.use { input ->
+            if (input == null) return
+            Files.copy(
+                input,
+                imagesDir.resolve(name).toPath(),
+                StandardCopyOption.REPLACE_EXISTING,
+            )
+        }
+
+    }
+
 }
+
+val Context.thanksImageDir
+    get() = filesDir.resolve("thanks")
 
 fun Thanks.imageUri(context: Context) = context
     .filesDir.resolve("thanks").resolve("$id")

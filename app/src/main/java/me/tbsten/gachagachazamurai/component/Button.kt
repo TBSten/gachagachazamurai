@@ -17,3 +17,9 @@ val secondaryButtonColors: ButtonColors
         containerColor = MaterialTheme.colorScheme.secondary,
         contentColor = MaterialTheme.colorScheme.onSecondary,
     )
+val errorButtonColors: ButtonColors
+    @Composable
+    get() = ButtonDefaults.buttonColors(
+        containerColor = MaterialTheme.colorScheme.error,
+        contentColor = MaterialTheme.colorScheme.onError,
+    )
