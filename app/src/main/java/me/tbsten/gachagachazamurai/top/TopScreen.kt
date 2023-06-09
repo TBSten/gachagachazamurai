@@ -78,7 +78,7 @@ fun TopScreenContent(
         val scope = rememberCoroutineScope()
         var count by remember { mutableStateOf(0) }
 
-        if (images != null) {
+        if (!images.isNullOrEmpty()) {
             LazyRow(
                 state = lazyRowState,
                 modifier = Modifier
