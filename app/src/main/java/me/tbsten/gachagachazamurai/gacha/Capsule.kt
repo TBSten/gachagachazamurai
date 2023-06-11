@@ -71,12 +71,12 @@ fun Capsule(
                     .clickableNoRipple(
                         enabled = !explosionState.isAnimating,
                     ) {
-                        when {
-                            GachaStep.UNOPENED_CAPSULE <= step && step <= GachaStep.OPENED_CAPSULE.prev!! -> {
+                        when (step) {
+                            in GachaStep.UNOPENED_CAPSULE..GachaStep.OPENED_CAPSULE.prev!! -> {
                                 onChangeStep(step.next!!)
                             }
 
-                            step == GachaStep.OPENED_CAPSULE -> {}
+                            GachaStep.OPENED_CAPSULE -> {}
                             else -> throw Error("not implement")
                         }
                     }
