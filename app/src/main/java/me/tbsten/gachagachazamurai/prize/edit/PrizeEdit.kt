@@ -13,7 +13,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Surface
@@ -25,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -138,12 +138,13 @@ fun StockEdit(
                     )
                     Row {
                         stockShortcuts.forEach { (text, stock) ->
-                            OutlinedButton(onClick = {
-                                onChange(stock)
-                                textFieldValue = "$stock"
-                            }) {
-                                Text(text = text, fontSize = 12.sp)
-                            }
+                            SuggestionChip(
+                                label = { Text(text = text) },
+                                onClick = {
+                                    onChange(stock)
+                                    textFieldValue = "$stock"
+                                },
+                            )
                         }
                     }
                     Row(
@@ -167,12 +168,19 @@ fun SelectRarity(
     onChange: (PrizeItem.Rarity) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val bottomSheetState = rememberModalBottomSheetState()
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-    SuggestionChip(onClick = { openBottomSheet = true }, modifier = modifier, label = {
-        Text("レア度:${rarity.displayName}")
-    })
+    val scope = rememberCoroutineScope()
+
+    SuggestionChip(
+        onClick = { scope.launch { openBottomSheet = true } },
+        modifier = modifier,
+        label = {
+            Text("レア度:${rarity.displayName}")
+        })
+
     if (openBottomSheet) {
+
         ModalBottomSheet(
             shape = MaterialTheme.shapes.medium,
             onDismissRequest = {
@@ -205,5 +213,6 @@ fun SelectRarity(
             }
             Spacer(Modifier.size(100.dp))
         }
+
     }
 }
