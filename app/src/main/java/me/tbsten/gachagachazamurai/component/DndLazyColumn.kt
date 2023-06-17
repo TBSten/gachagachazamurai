@@ -1,6 +1,5 @@
 package me.tbsten.gachagachazamurai.component
 
-import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -27,10 +26,7 @@ fun DndLazyColumn(
 ) {
 
     val lazyColumnState = rememberLazyListState()
-    var draggingStartOffset by remember { mutableStateOf<Offset?>(null) }
-    var draggingIndex by remember { mutableStateOf<Int?>(null) }
-    var draggingOffsetYDelta by remember { mutableStateOf<Float?>(null) }
-    var dropTargetIndex by remember { mutableStateOf<Int?>(null) }
+    var dndState by remember { mutableStateOf<DndState>(DndState.NotDragging) }
 
     LazyColumn(
         modifier = Modifier
@@ -39,51 +35,48 @@ fun DndLazyColumn(
                     onDragStart = { offset ->
                         val layout = lazyColumnState.layoutInfo.visibleItemsInfo
                         val startOffsetY = offset.y.toInt()
-                        draggingIndex =
+                        val draggingIndex =
                             layout.indexOfFirst { startOffsetY < it.offset + it.size }
-                        draggingOffsetYDelta = 0f
-                        draggingStartOffset = offset
-                        Log.d("start-drag", "$draggingIndex")
+                        dndState = DndState.Dragging(
+                            draggingIndex = draggingIndex,
+                            draggingOffsetYDelta = 0f,
+                            draggingStartOffset = offset,
+                            dropTargetIndex = draggingIndex,
+                        )
                     },
                     onDrag = { change, dragAmount ->
-                        // ドラッグ中の要素の移動
-                        val beforeTargetOffsetY =
-                            draggingOffsetYDelta
-                                ?: throw IllegalStateException("draggingOffsetY is null")
+                        val beforeState = dndState
+                        if (beforeState !is DndState.Dragging) throw IllegalStateException("when onDrag, dndState must be Dragging but $dndState")
+
                         val layout = lazyColumnState.layoutInfo.visibleItemsInfo
-                        draggingOffsetYDelta = beforeTargetOffsetY + dragAmount.y
-                        // ドロップ対象の要素の選択
-                        val currentPointerOffsetY = draggingStartOffset!!.y + draggingOffsetYDelta!!
+                        val currentPointerOffsetY =
+                            beforeState.draggingStartOffset.y + beforeState.draggingOffsetYDelta
                         val index =
                             layout.indexOfFirst { currentPointerOffsetY < it.offset + it.size }
-                        dropTargetIndex = when {
-                            currentPointerOffsetY <= 0 -> 0
-                            index == -1 -> layout.lastIndex
-                            else -> index
+                        dndState = beforeState.let {
+                            beforeState.copy(
+                                draggingOffsetYDelta = it.draggingOffsetYDelta + dragAmount.y,
+                                dropTargetIndex = when {
+                                    currentPointerOffsetY <= 0 -> 0
+                                    index == -1 -> layout.lastIndex
+                                    else -> index
+                                }
+                            )
                         }
-                        Log.d("drag", "$draggingOffsetYDelta")
                     },
                     onDragEnd = {
                         // onMove.invoke()
-                        draggingStartOffset = null
-                        draggingIndex = null
-                        draggingOffsetYDelta = null
-                        dropTargetIndex = null
+                        dndState = DndState.NotDragging
                     },
                     onDragCancel = {
-                        draggingStartOffset = null
-                        draggingIndex = null
-                        draggingOffsetYDelta = null
-                        dropTargetIndex = null
+                        dndState = DndState.NotDragging
                     },
                 )
             },
         state = lazyColumnState,
     ) {
         val columnScope = DndLazyColumnScope(
-            draggingIndex = draggingIndex,
-            draggingOffsetYDelta = draggingOffsetYDelta,
-            dropTargetIndex = dropTargetIndex,
+            dndState = dndState,
             scope = this,
         )
         columnScope.itemsContent()
@@ -91,10 +84,18 @@ fun DndLazyColumn(
     }
 }
 
+sealed interface DndState {
+    object NotDragging : DndState
+    data class Dragging(
+        val draggingStartOffset: Offset,
+        val draggingIndex: Int,
+        val draggingOffsetYDelta: Float,
+        val dropTargetIndex: Int,
+    ) : DndState
+}
+
 class DndLazyColumnScope(
-    val draggingIndex: Int?,
-    private val draggingOffsetYDelta: Float?,
-    val dropTargetIndex: Int?,
+    private val dndState: DndState,
     private val scope: LazyListScope,
 ) {
     fun <T> items(
@@ -106,10 +107,10 @@ class DndLazyColumnScope(
         scope.itemsIndexed(items, key, contentType) { index, item ->
             val lazyItemScope = this
             Box(
-                modifier = if (draggingIndex == index) Modifier.offset {
+                modifier = if (dndState is DndState.Dragging && dndState.draggingIndex == index) Modifier.offset {
                     IntOffset(
                         x = 0,
-                        y = draggingOffsetYDelta!!.toInt()
+                        y = dndState.draggingOffsetYDelta.toInt()
                     )
                 } else Modifier
             ) {
@@ -117,8 +118,8 @@ class DndLazyColumnScope(
                     DndLazyColumnItemInfo(
                         index = index,
                         item = item,
-                        draggingIndex = draggingIndex,
-                        dropTargetIndex = dropTargetIndex,
+                        draggingIndex = if (dndState is DndState.Dragging) dndState.draggingIndex else null,
+                        dropTargetIndex = if (dndState is DndState.Dragging) dndState.dropTargetIndex else null,
                     )
                 )
             }
