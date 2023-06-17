@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.IntOffset
 
 @Composable
 fun DndLazyColumn(
-    stopTop: Boolean = true,
-    stopBottom: Boolean = true,
     itemsContent: DndLazyColumnScope.() -> Unit,
 ) {
 
@@ -54,7 +52,7 @@ fun DndLazyColumn(
                         val index =
                             layout.indexOfFirst { currentPointerOffsetY < it.offset + it.size }
                         dndState = beforeState.let {
-                            beforeState.copy(
+                            it.copy(
                                 draggingOffsetYDelta = it.draggingOffsetYDelta + dragAmount.y,
                                 dropTargetIndex = when {
                                     currentPointerOffsetY <= 0 -> 0
