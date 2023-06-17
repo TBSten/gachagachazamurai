@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.IntOffset
 
 @Composable
 fun DndLazyColumn(
+    onMove: (from: Int, to: Int) -> Unit,
     itemsContent: DndLazyColumnScope.() -> Unit,
 ) {
 
@@ -63,7 +64,14 @@ fun DndLazyColumn(
                         }
                     },
                     onDragEnd = {
-                        // onMove.invoke()
+                        val onDropDndState = dndState
+                        if (onDropDndState !is DndState.Dragging) throw IllegalStateException("when onDrag, dndState must be Dragging but $dndState")
+                        if (onDropDndState.draggingIndex != onDropDndState.dropTargetIndex) {
+                            onMove(
+                                onDropDndState.draggingIndex,
+                                onDropDndState.dropTargetIndex,
+                            )
+                        }
                         dndState = DndState.NotDragging
                     },
                     onDragCancel = {
