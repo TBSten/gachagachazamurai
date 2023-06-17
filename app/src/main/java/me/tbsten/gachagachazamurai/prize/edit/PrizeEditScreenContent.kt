@@ -59,7 +59,7 @@ fun PrizeEditScreenContent(
                     Box {
                         PrizeListItem(
                             prizeItem = item,
-                            onDoubleClick = { openDialog = true },
+                            onClick = { openDialog = true },
                             showDetail = true,
                         )
                     }

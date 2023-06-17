@@ -12,8 +12,8 @@ class PrizeItemRepository @Inject constructor(
         prizeItemDao.insert(item.toEntity())
     }
 
-    suspend fun getAll(): List<PrizeItem> {
-        return prizeItemDao.getAll().map { it.toPrizeItem() }
+    suspend fun getAll(sortBy: String = "id"): List<PrizeItem> {
+        return prizeItemDao.getAll(sortBy = sortBy).map { it.toPrizeItem() }
     }
 
     suspend fun getAllCount(): Int {

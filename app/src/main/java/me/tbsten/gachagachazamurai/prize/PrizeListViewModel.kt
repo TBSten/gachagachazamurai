@@ -1,5 +1,6 @@
 package me.tbsten.gachagachazamurai.prize
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +19,10 @@ class PrizeListViewModel @Inject constructor(
 ) : ViewModel() {
     private val _items = MutableStateFlow<List<PrizeItem>?>(null)
     val items = _items.asStateFlow()
-    private val _isLoadingItems = MutableStateFlow<Boolean>(false)
+    private val _isLoadingItems = MutableStateFlow(false)
     val isLoadingItems = _isLoadingItems.asStateFlow()
+    private val _itemsSortBy = MutableStateFlow("id")
+    val itemsSortBy = _itemsSortBy.asStateFlow()
 
     init {
         refreshPrizeItems()
@@ -28,7 +31,7 @@ class PrizeListViewModel @Inject constructor(
     fun refreshPrizeItems() {
         _isLoadingItems.update { true }
         viewModelScope.launch(Dispatchers.IO) {
-            _items.update { prizeRepository.getAll() }
+            _items.update { prizeRepository.getAll(sortBy = itemsSortBy.value) }
         }.invokeOnCompletion {
             _isLoadingItems.update { false }
         }
@@ -46,6 +49,12 @@ class PrizeListViewModel @Inject constructor(
             prizeRepository.delete(item)
             refreshPrizeItems()
         }
+    }
+
+    fun updateSortBy(sortBy: String) {
+        Log.d("sortBy", "$sortBy")
+        _itemsSortBy.update { sortBy }
+        refreshPrizeItems()
     }
 
 }

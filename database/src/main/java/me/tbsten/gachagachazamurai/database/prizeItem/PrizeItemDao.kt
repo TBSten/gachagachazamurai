@@ -12,6 +12,32 @@ interface PrizeItemDao {
     @Query("SELECT * FROM prize_item")
     suspend fun getAll(): List<PrizeItemEntity>
 
+    @Query("SELECT * FROM prize_item ORDER BY id ASC")
+    suspend fun getAllSortById(): List<PrizeItemEntity>
+
+    @Query("SELECT * FROM prize_item ORDER BY name, id ASC")
+    suspend fun getAllSortByName(): List<PrizeItemEntity>
+
+    @Query("SELECT * FROM prize_item ORDER BY stock DESC, id ASC")
+    suspend fun getAllSortByStock(): List<PrizeItemEntity>
+
+    @Query("SELECT * FROM prize_item ORDER BY purchase DESC, id ASC")
+    suspend fun getAllSortByPurchase(): List<PrizeItemEntity>
+
+    @Query("SELECT * FROM prize_item ORDER BY rarity DESC, id ASC")
+    suspend fun getAllSortByRarity(): List<PrizeItemEntity>
+
+    suspend fun getAll(sortBy: String): List<PrizeItemEntity> =
+        when (sortBy) {
+            "id" -> getAllSortById()
+            "name" -> getAllSortByName()
+            "stock" -> getAllSortByStock()
+            "purchase" -> getAllSortByPurchase()
+            "rarity" -> getAllSortByRarity()
+            else -> throw IllegalArgumentException("$sortBy is invalid as sortBy")
+        }
+
+
     @Query("SELECT * FROM prize_item WHERE id = :id")
     suspend fun getOne(id: Int): PrizeItemEntity
 

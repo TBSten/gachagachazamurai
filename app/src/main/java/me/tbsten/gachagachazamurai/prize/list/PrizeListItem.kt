@@ -16,13 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import me.tbsten.gachagachazamurai.component.applyIf
 import me.tbsten.gachagachazamurai.domain.PrizeItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PrizeListItem(
     prizeItem: PrizeItem,
+    onClick: () -> Unit = {},
     onDoubleClick: (() -> Unit)? = null,
     showDetail: Boolean = false,
     modifier: Modifier = Modifier,
@@ -30,12 +30,10 @@ fun PrizeListItem(
     with(prizeItem) {
         Column(
             modifier = modifier
-                .applyIf(onDoubleClick != null) {
-                    combinedClickable(
-                        onClick = {},
-                        onDoubleClick = onDoubleClick,
-                    )
-                }
+                .combinedClickable(
+                    onClick = onClick,
+                    onDoubleClick = onDoubleClick,
+                )
                 .padding(16.dp),
         ) {
             Row(
