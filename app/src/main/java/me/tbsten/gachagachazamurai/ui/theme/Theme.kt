@@ -45,5 +45,4 @@ fun GachaGachaZamuraiTheme(
         shapes = shapes,
         content = content
     )
-//    content()
 }

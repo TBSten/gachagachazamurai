@@ -52,68 +52,6 @@ fun PrizeEditScreenContent(
         },
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
-
-//            val lazyColumnState = rememberLazyListState()
-//            var targetIndex by remember { mutableStateOf<Int?>(null) }
-//            var targetOffsetY by remember { mutableStateOf<Float?>(null) }
-//            LazyColumn(
-//                modifier = Modifier
-//                    .pointerInput(Unit) {
-//                        detectDragGesturesAfterLongPress(
-//                            onDragStart = { offset ->
-//                                val layout = lazyColumnState.layoutInfo.visibleItemsInfo
-//                                val startOffsetY = offset.y.toInt()
-//                                targetIndex =
-//                                    layout.indexOfFirst { startOffsetY < it.offset + it.size }
-//                                targetOffsetY = 0f
-//                                Log.d("start-drag", "$targetIndex")
-//                            },
-//                            onDrag = { change, dragAmount ->
-//                                val beforeTargetOffsetY =
-//                                    targetOffsetY ?: return@detectDragGesturesAfterLongPress
-//                                targetOffsetY = beforeTargetOffsetY + dragAmount.y
-//                                Log.d("drag", "$beforeTargetOffsetY -> $targetOffsetY")
-//                            },
-//                            onDragEnd = {
-//                                targetIndex = null
-//                                targetOffsetY = null
-//                            },
-//                            onDragCancel = {
-//                                targetIndex = null
-//                                targetOffsetY = null
-//                            },
-//                        )
-//                    }
-//                    .fillMaxSize(),
-//                state = lazyColumnState,
-//            ) {
-//                itemsIndexed(prizeList) { index, item ->
-//
-//                    var openDialog by remember { mutableStateOf(false) }
-//
-//                    PrizeListItem(
-//                        item,
-//                        onDoubleClick = { openDialog = true },
-//                        showDetail = true,
-//                        modifier = if (targetIndex == index) Modifier.offset {
-//                            IntOffset(
-//                                x = 0,
-//                                y = targetOffsetY!!.toInt()
-//                            )
-//                        } else Modifier,
-//                    )
-//
-//                    if (openDialog) {
-//                        PrizeEditDialog(
-//                            item,
-//                            onClose = { openDialog = false },
-//                            onUpdate = { newPrize -> prizeListViewModel.updatePrizeItem(newPrize) },
-//                            onDelete = { prizeListViewModel.deletePrizeItem(item) },
-//                        )
-//                    }
-//
-//                }
-//            }
             LazyColumn {
                 items(prizeList) { item ->
                     var openDialog by remember { mutableStateOf(false) }

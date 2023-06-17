@@ -157,7 +157,6 @@ fun TitlePane(
 
     Box(
         modifier = modifier
-//            .scale(scale)
             .graphicsLayer(
                 transformOrigin = TransformOrigin(0.5f, 0f),
                 scaleX = scale,

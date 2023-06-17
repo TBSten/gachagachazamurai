@@ -45,7 +45,6 @@ fun GachaScreenContent(
     Box(
         Modifier
             .clickableNoRipple(
-//            .clickable(
                 enabled = step in GachaStep.STARTED..GachaStep.TURNED_FULL.prev!!
             ) {
                 step = step.next!!
