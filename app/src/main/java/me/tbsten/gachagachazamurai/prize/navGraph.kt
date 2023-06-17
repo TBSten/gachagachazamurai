@@ -27,7 +27,7 @@ fun NavGraphBuilder.prizeScreen(navController: NavController) {
         }
         composable(route = "create") {
             NewPrizeDialog(
-                backPrevScreen = { navController.popBackStack("list", false) },
+                backPrevScreen = { navController.popBackStack("edit", false) },
             )
         }
     }
