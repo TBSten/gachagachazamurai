@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
@@ -21,6 +22,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -81,7 +83,11 @@ fun PrizeEdit(
         ) {
             StockEdit(
                 stock = editing.stock,
-                onChange = { editing = editing.copy(stock = it, purchase = it) },
+                onChange = { editing = editing.copy(stock = it) },
+            )
+            PurchaseEdit(
+                purchase = editing.purchase,
+                onChange = { editing = editing.copy(purchase = it) },
             )
             SelectRarity(
                 rarity = editing.rarity,
@@ -108,11 +114,12 @@ val stockShortcuts = mapOf(
 fun StockEdit(
     stock: Int,
     onChange: (Int) -> Unit,
+    title: @Composable () -> Unit = { Text("ストック:$stock") },
     modifier: Modifier = Modifier,
 ) {
     var openDialog by remember { mutableStateOf(false) }
     SuggestionChip(onClick = { openDialog = true }, modifier = modifier, label = {
-        Text("ストック:$stock")
+        title()
     })
     if (openDialog) {
         Dialog(
@@ -123,7 +130,11 @@ fun StockEdit(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Text("ストック数", fontWeight = FontWeight.Bold)
+                    CompositionLocalProvider(
+                        LocalTextStyle provides LocalTextStyle.current.copy(fontWeight = FontWeight.Bold)
+                    ) {
+                        title()
+                    }
                     var textFieldValue by remember { mutableStateOf("$stock") }
                     TextField(
                         value = textFieldValue,
@@ -159,6 +170,20 @@ fun StockEdit(
             }
         }
     }
+}
+
+@Composable
+fun PurchaseEdit(
+    purchase: Int,
+    onChange: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    StockEdit(
+        stock = purchase,
+        onChange = onChange,
+        modifier = modifier,
+        title = { Text("仕入:$purchase") }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
