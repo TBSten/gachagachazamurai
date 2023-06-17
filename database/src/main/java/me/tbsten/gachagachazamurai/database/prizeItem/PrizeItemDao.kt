@@ -12,6 +12,12 @@ interface PrizeItemDao {
     @Query("SELECT * FROM prize_item")
     suspend fun getAll(): List<PrizeItemEntity>
 
+    @Query("SELECT * FROM prize_item WHERE id = :id")
+    suspend fun getOne(id: Int): PrizeItemEntity
+
+    @Query("SELECT COUNT(*) FROM prize_item")
+    suspend fun getAllCount(): Int
+
     @Insert
     suspend fun insert(entity: PrizeItemEntity)
 
@@ -20,6 +26,9 @@ interface PrizeItemDao {
 
     @Delete
     suspend fun delete(entity: PrizeItemEntity)
+
+    @Query("DELETE FROM prize_item WHERE id = :id")
+    suspend fun delete(id: Int)
 
     @Query("SELECT SUM(stock) FROM prize_item")
     fun _getTotalStock(): Int

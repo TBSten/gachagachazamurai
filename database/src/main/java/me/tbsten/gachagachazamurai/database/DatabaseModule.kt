@@ -18,6 +18,8 @@ object DatabaseModule {
         return Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "gachagachazamurai-db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

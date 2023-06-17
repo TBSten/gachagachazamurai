@@ -15,7 +15,9 @@ class NewPrizeViewModel @Inject constructor(
 ) : ViewModel() {
     fun createPrizeItem(item: PrizeItem) {
         viewModelScope.launch(Dispatchers.IO) {
-            prizeRepository.create(item)
+            prizeRepository.create(
+                item,
+            )
         }
     }
 }

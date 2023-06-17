@@ -10,7 +10,7 @@ import me.tbsten.gachagachazamurai.database.thanks.ThanksEntity
 
 @Database(
     entities = [PrizeItemEntity::class, ThanksEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

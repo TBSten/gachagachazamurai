@@ -37,3 +37,11 @@ fun PrizeItem.toEntity(): PrizeItemEntity =
         image = this.image,
         rarity = this.rarity,
     )
+
+fun List<PrizeItemEntity>.toPrizeItemList() = this.map {
+    it.toPrizeItem()
+}
+
+fun List<PrizeItem>.toEntityList() = this.map { prizeItem ->
+    prizeItem.toEntity()
+}

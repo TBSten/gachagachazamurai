@@ -1,10 +1,10 @@
 package me.tbsten.gachagachazamurai.prize.edit
 
-import android.util.Log
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -18,11 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import me.tbsten.gachagachazamurai.component.DndLazyColumn
-import me.tbsten.gachagachazamurai.component.applyIf
 import me.tbsten.gachagachazamurai.prize.PrizeListViewModel
 import me.tbsten.gachagachazamurai.prize.list.PrizeListItem
 
@@ -118,27 +114,23 @@ fun PrizeEditScreenContent(
 //
 //                }
 //            }
-            DndLazyColumn(onMove = { from, to -> Log.d("onMove", "$from $to") }) {
-                items(prizeList) { info ->
+            LazyColumn {
+                items(prizeList) { item ->
                     var openDialog by remember { mutableStateOf(false) }
 
-                    Box(
-                        Modifier
-                            .applyIf(info.isDragging) { border(2.dp, Color.Red) }
-                            .applyIf(info.isDropTarget) { border(2.dp, Color.Blue) }
-                    ) {
+                    Box {
                         PrizeListItem(
-                            info.item,
+                            prizeItem = item,
                             onDoubleClick = { openDialog = true },
                             showDetail = true,
                         )
                     }
                     if (openDialog) {
                         PrizeEditDialog(
-                            info.item,
+                            default = item,
                             onClose = { openDialog = false },
                             onUpdate = { newPrize -> prizeListViewModel.updatePrizeItem(newPrize) },
-                            onDelete = { prizeListViewModel.deletePrizeItem(info.item) },
+                            onDelete = { prizeListViewModel.deletePrizeItem(item) },
                         )
                     }
                 }

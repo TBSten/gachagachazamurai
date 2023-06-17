@@ -16,15 +16,21 @@ class PrizeItemRepository @Inject constructor(
         return prizeItemDao.getAll().map { it.toPrizeItem() }
     }
 
+    suspend fun getAllCount(): Int {
+        return prizeItemDao.getAllCount()
+    }
+
     suspend fun getRandom(): PrizeItem {
         return prizeItemDao.getRandom().toPrizeItem()
     }
 
-    suspend fun update(item: PrizeItem) {
+    suspend fun update(
+        item: PrizeItem,
+    ) {
         prizeItemDao.update(item.toEntity())
     }
 
     suspend fun delete(item: PrizeItem) {
-        prizeItemDao.delete(item.toEntity())
+        prizeItemDao.delete(item.id)
     }
 }
