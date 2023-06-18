@@ -83,17 +83,19 @@ fun GachaScreenContent(
             prizeItem = targetPrizeItem,
             onChangeStep = { step = it },
             prizeContent = {
-                GachaResult(
-                    prizeItem = targetPrizeItem,
-                    actions = {
-                        TextButton(onClick = backToTop) {
-                            Text("TOPに戻る")
-                        }
-                        Button(onClick = renavigateGacha) {
-                            Text("もう一度引く")
-                        }
-                    },
-                )
+                Box(Modifier.fillMaxSize().padding(8.dp), contentAlignment = Alignment.Center) {
+                    GachaResult(
+                        prizeItem = targetPrizeItem,
+                        actions = {
+                            TextButton(onClick = backToTop) {
+                                Text("TOPに戻る")
+                            }
+                            Button(onClick = renavigateGacha) {
+                                Text("もう一度引く")
+                            }
+                        },
+                    )
+                }
             },
         )
     }
