@@ -1,5 +1,6 @@
 package me.tbsten.gachagachazamurai.database.prizeItem
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import me.tbsten.gachagachazamurai.domain.PrizeItem
@@ -23,7 +24,7 @@ fun PrizeItemEntity.toPrizeItem(): PrizeItem =
         detail = this.detail,
         stock = this.stock,
         purchase = this.purchase,
-        image = this.image,
+        image = if (this.image != null) Uri.parse(this.image) else null,
         rarity = this.rarity,
     )
 
@@ -34,7 +35,7 @@ fun PrizeItem.toEntity(): PrizeItemEntity =
         detail = this.detail,
         stock = this.stock,
         purchase = this.purchase,
-        image = this.image,
+        image = this.image.toString(),
         rarity = this.rarity,
     )
 
