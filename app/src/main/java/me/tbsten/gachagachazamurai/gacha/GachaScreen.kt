@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import me.tbsten.gachagachazamurai.component.clickableNoRipple
+import me.tbsten.gachagachazamurai.gacha.openAnimation.OpenAnimation
 
 @Composable
 fun GachaScreenContent(
@@ -78,7 +79,7 @@ fun GachaScreenContent(
     }
 
     if (targetPrizeItem != null) {
-        Capsule(
+        OpenAnimation(
             step,
             prizeItem = targetPrizeItem,
             onChangeStep = { step = it },

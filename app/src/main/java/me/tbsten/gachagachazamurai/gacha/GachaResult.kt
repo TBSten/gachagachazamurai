@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -102,7 +103,12 @@ private fun GachaResultImage(
         painter = painter,
         contentDescription = prizeItem.name,
         modifier = modifier
-            .aspectRatio(painter.intrinsicSize.let { it.width / it.height }),
+            .aspectRatio(
+                if (painter.intrinsicSize.isUnspecified)
+                    1f / 1f
+                else
+                    painter.intrinsicSize.let { it.width / it.height }
+            ),
     )
 
 }
