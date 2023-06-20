@@ -1,13 +1,18 @@
 package me.tbsten.gachagachazamurai.gacha
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.keyframes
+import android.util.Log
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.composed
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import me.tbsten.gachagachazamurai.R
 
 @Composable
@@ -25,7 +30,7 @@ fun GachaStand(
 
     Image(
         modifier = Modifier
-            .scale(animateState.scale)
+            .animateGachaStand(animateState)
             .then(modifier),
         painter = gachaPainter,
         contentDescription = "gacha stand",
@@ -37,35 +42,41 @@ private fun animateGachaStand(
     step: GachaStep,
     onCompleteGachaFullRotate: () -> Unit
 ): GachaStandAnimateState {
-    val scale by animateFloatAsState(
-        label = "scale gacha effect animation",
-        targetValue = when (step) {
-            GachaStep.TURNED_HALF -> 1.001f
-            GachaStep.TURNED_FULL -> 1.002f
-            else -> 1f
-        },
-        animationSpec = keyframes {
-            val base = 0.1f
-            durationMillis = if (
-                step == GachaStep.TURNED_HALF ||
-                step == GachaStep.TURNED_FULL
-            ) 900 else 0
-            1.00f at durationMillis * 0 / 1
-            1 + base at durationMillis * 1 / 4
-            1 - base / 2 at durationMillis * 3 / 4
-            1.00f at durationMillis * 1 / 1
-        },
-        finishedListener = {
-            if (step == GachaStep.TURNED_FULL) {
-                onCompleteGachaFullRotate()
+    // ガチャスタンドが左右に揺れて若干膨らんだり縮んだりするアニメーション
+    val offsetX = remember { Animatable(0f) }
+    LaunchedEffect(step) {
+        when (step) {
+            GachaStep.TURNED_HALF, GachaStep.TURNED_FULL -> {
+                val start = System.currentTimeMillis()
+                val offsetDelta = 5f
+                val durationMillis = 600
+                val count = 9
+                repeat((count - 1) / 2) {
+                    offsetX.animateTo(offsetDelta, tween(durationMillis / count))
+                    offsetX.animateTo(-offsetDelta, tween(durationMillis / count))
+                }
+                offsetX.animateTo(0f, tween(durationMillis / count))
+                val end = System.currentTimeMillis()
+                Log.d("debug-anim", "finish (${end - start}ms)")
             }
+
+            else -> {}
         }
-    )
+        if (step == GachaStep.TURNED_FULL) onCompleteGachaFullRotate()
+    }
+    val offset = Offset(offsetX.value, 1f)
+
     return object : GachaStandAnimateState {
-        override val scale = scale
+        override val offset = offset
     }
 }
 
 private interface GachaStandAnimateState {
-    val scale: Float
+    val offset: Offset
 }
+
+private fun Modifier.animateGachaStand(state: GachaStandAnimateState) =
+    composed {
+        offset(x = state.offset.x.dp, y = state.offset.y.dp)
+    }
+

@@ -1,13 +1,16 @@
 package me.tbsten.gachagachazamurai.gacha
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
@@ -23,8 +26,7 @@ fun GachaHandle(
 
     Image(
         modifier = Modifier
-            .scale(animateState.scale)
-            .rotate(animateState.rotate)
+            .animateGachaHandle(animateState)
             .aspectRatio(handlePainter.intrinsicSize.width / handlePainter.intrinsicSize.height)
             .then(modifier),
         painter = handlePainter,
@@ -45,28 +47,24 @@ private fun animateGachaHandle(
         },
         animationSpec = tween(durationMillis = if (step == GachaStep.TURNED_HALF || step == GachaStep.TURNED_FULL) 700 else 0),
     )
-    val scale by animateFloatAsState(
-        label = "scale gacha handle animation",
-        targetValue = when (step) {
-            GachaStep.TURNED_HALF -> 1.001f
-            GachaStep.TURNED_FULL -> 1.002f
-            else -> 1f
-        },
-        animationSpec = keyframes {
-            val base = 0.3f
-            durationMillis = if (
-                step == GachaStep.TURNED_HALF ||
-                step == GachaStep.TURNED_FULL
-            ) 900 else 0
-            1.00f at durationMillis * 0 / 1
-            1 - base at durationMillis * 1 / 4
-            1 + base / 2 at durationMillis * 3 / 4
-            1.00f at durationMillis * 1 / 1
-        },
-    )
+
+    val scale = remember { Animatable(1f) }
+    LaunchedEffect(step) {
+        when (step) {
+            GachaStep.TURNED_HALF, GachaStep.TURNED_FULL -> {
+                val durationMillis = 700
+                val base = 0.2f
+                scale.animateTo(1 - base, tween(durationMillis * 2 / 8))
+                scale.animateTo(1 + base / 2, tween(durationMillis * 4 / 8))
+                scale.animateTo(1f, tween(durationMillis * 2 / 8))
+            }
+
+            else -> {}
+        }
+    }
 
     return object : GachaHandleAnimateState {
-        override val scale = scale
+        override val scale = scale.value
         override val rotate = rotate
     }
 }
@@ -75,3 +73,9 @@ private interface GachaHandleAnimateState {
     val scale: Float
     val rotate: Float
 }
+
+private fun Modifier.animateGachaHandle(state: GachaHandleAnimateState) =
+    composed {
+        scale(state.scale)
+            .rotate(state.rotate)
+    }
