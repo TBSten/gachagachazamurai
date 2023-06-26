@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -30,9 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension.Companion.fillToConstraints
 import coil.compose.rememberAsyncImagePainter
 import me.tbsten.gachagachazamurai.domain.PrizeItem
 import me.tbsten.gachagachazamurai.ui.theme.GachaGachaZamuraiTheme
@@ -43,31 +40,32 @@ fun GachaResult(
     prizeItem: PrizeItem,
     actions: (@Composable () -> Unit)? = null,
 ) {
-    val showImage = prizeItem.image != null
+//    val showImage = prizeItem.image != null
+    val showImage = false
     var launched by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { launched = true }
 
     ConstraintLayout {
         val (image, content) = createRefs()
 
-        AnimatedVisibility(
-            modifier = Modifier
-                .constrainAs(image) {
-                    val margin = 32.dp
-                    start.linkTo(parent.start, margin)
-                    end.linkTo(parent.end, margin)
-                    width = fillToConstraints
-                }
-                .zIndex(1f),
-            visible = showImage && launched,
-            enter = fadeIn(tween(durationMillis = 500)) + slideInVertically(initialOffsetY = { it / 5 }) + scaleIn(
-                initialScale = 0.8f
-            ),
-        ) {
-            GachaResultImage(
-                prizeItem = prizeItem,
-            )
-        }
+//        AnimatedVisibility(
+//            modifier = Modifier
+//                .constrainAs(image) {
+//                    val margin = 32.dp
+//                    start.linkTo(parent.start, margin)
+//                    end.linkTo(parent.end, margin)
+//                    width = fillToConstraints
+//                }
+//                .zIndex(1f),
+//            visible = showImage && launched,
+//            enter = fadeIn(tween(durationMillis = 500))
+//                    + slideInVertically(initialOffsetY = { it / 5 })
+//                    + scaleIn(initialScale = 0.8f),
+//        ) {
+//            GachaResultImage(
+//                prizeItem = prizeItem,
+//            )
+//        }
 
         AnimatedVisibility(
             modifier = Modifier
