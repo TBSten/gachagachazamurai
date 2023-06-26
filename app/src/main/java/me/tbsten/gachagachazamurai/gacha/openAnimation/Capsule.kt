@@ -1,8 +1,10 @@
 package me.tbsten.gachagachazamurai.gacha.openAnimation
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -30,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import kotlinx.coroutines.delay
 import me.tbsten.gachagachazamurai.R
 import me.tbsten.gachagachazamurai.component.clickableNoRipple
@@ -103,8 +107,20 @@ fun Capsule(
             animationSpec = tween(durationMillis = openDuration),
         )
 
+        AnimatedVisibility(
+            visible = step == GachaStep.UNOPENED_CAPSULE,
+            exit = fadeOut(),
+            modifier = Modifier.zIndex(1f).padding(top = 32.dp).align(Alignment.TopCenter),
+        ) {
+            Image(
+                painterResource(R.drawable.tap_2),
+                contentDescription = "tap",
+            )
+        }
+
         when (step) {
             GachaStep.UNOPENED_CAPSULE -> {
+
                 Image(
                     painter,
                     contentDescription = null,
