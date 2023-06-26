@@ -2,6 +2,10 @@ package me.tbsten.gachagachazamurai.gacha
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -85,17 +89,35 @@ fun GachaScreenContent(
             onChangeStep = { step = it },
             prizeContent = {
                 Box(Modifier.fillMaxSize().padding(8.dp), contentAlignment = Alignment.Center) {
-                    GachaResult(
-                        prizeItem = targetPrizeItem,
-                        actions = {
-                            TextButton(onClick = backToTop) {
-                                Text("TOPに戻る")
-                            }
-                            Button(onClick = renavigateGacha) {
-                                Text("もう一度引く")
-                            }
-                        },
-                    )
+
+                    var showResult by remember { mutableStateOf(true) }
+                    val animVisibleState = remember { MutableTransitionState(showResult) }
+                        .apply { targetState = showResult }
+
+                    AnimatedVisibility(
+                        visibleState = animVisibleState,
+                        enter = EnterTransition.None,
+                        exit = fadeOut() + slideOutVertically(),
+                    ) {
+                        GachaResult(
+                            prizeItem = targetPrizeItem,
+                            actions = {
+                                TextButton(onClick = {
+                                    showResult = false
+                                    backToTop()
+                                }) {
+                                    Text("TOPに戻る")
+                                }
+                                Button(onClick = {
+                                    showResult = false
+                                    renavigateGacha()
+                                }) {
+                                    Text("もう一度引く")
+                                }
+                            },
+                        )
+                    }
+                    
                 }
             },
         )
