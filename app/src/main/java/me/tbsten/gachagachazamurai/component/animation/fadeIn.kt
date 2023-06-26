@@ -36,6 +36,7 @@ fun Modifier.fadeIn(
 
 @Composable
 fun FadeIn(
+    modifier: Modifier = Modifier,
     delayMillis: Int = 0,
     durationMillis: Int = 300,
     content: @Composable () -> Unit,
@@ -45,6 +46,7 @@ fun FadeIn(
     AnimatedVisibility(
         visible = launched,
         enter = fadeInTransition(delayMillis, durationMillis),
+        modifier = modifier,
     ) {
         content()
     }

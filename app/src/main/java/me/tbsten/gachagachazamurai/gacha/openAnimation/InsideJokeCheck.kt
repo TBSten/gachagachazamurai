@@ -2,17 +2,24 @@ package me.tbsten.gachagachazamurai.gacha.openAnimation
 
 import android.util.Log
 import androidx.compose.animation.Animatable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.EaseInBack
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -35,14 +42,18 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
+import me.tbsten.gachagachazamurai.R
 import me.tbsten.gachagachazamurai.component.clickableNoRipple
 import me.tbsten.gachagachazamurai.domain.PrizeItem
 import me.tbsten.gachagachazamurai.gacha.GachaStep
 import kotlin.math.abs
 import kotlin.math.min
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun InsideJokeCheck(
     step: GachaStep,
@@ -103,6 +114,28 @@ fun InsideJokeCheck(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
+        AnimatedVisibility(
+            visible = step == GachaStep.UNOPENED_CAPSULE,
+            enter = fadeIn() + scaleIn(),
+            exit = fadeOut(),
+            modifier = Modifier.padding(top = 32.dp).align(Alignment.TopCenter)
+        ) {
+            Image(
+                painterResource(R.drawable.nazore_2),
+                contentDescription = "tap",
+            )
+        }
+        AnimatedVisibility(
+            visible = step == GachaStep.OPENED_CAPSULE,
+            enter = fadeIn() + scaleIn(),
+            exit = fadeOut(),
+            modifier = Modifier.padding(top = 32.dp).align(Alignment.TopCenter)
+        ) {
+            Image(
+                painterResource(R.drawable.good_2),
+                contentDescription = "tap",
+            )
+        }
 
         val animationDelay = 500
         Canvas(
