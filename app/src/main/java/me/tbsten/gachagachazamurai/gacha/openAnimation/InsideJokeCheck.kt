@@ -2,6 +2,7 @@ package me.tbsten.gachagachazamurai.gacha.openAnimation
 
 import android.util.Log
 import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.EaseInBack
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
@@ -103,19 +104,25 @@ fun InsideJokeCheck(
         contentAlignment = Alignment.Center,
     ) {
 
+        val animationDelay = 500
         Canvas(
             Modifier
                 .rotate(checkRotate)
                 .alpha(
                     checkAlpha * animateFloatAsState(
-                        if (step === GachaStep.OPENED_CAPSULE) 0f else 1f,
-                        animationSpec = tween(durationMillis = 300, easing = EaseOut),
+                        label = "canvas checkAlpha animation",
+                        targetValue = if (step === GachaStep.OPENED_CAPSULE) 0f else 1f,
+                        animationSpec = tween(durationMillis = animationDelay, easing = EaseOut),
                     ).value
                 )
                 .scale(
                     checkScale * animateFloatAsState(
-                        if (step === GachaStep.OPENED_CAPSULE) 15f else 1f,
-                        animationSpec = tween(durationMillis = 300, easing = EaseOut),
+                        label = "canvas checkScale animation",
+                        targetValue = if (step === GachaStep.OPENED_CAPSULE) 3f else 1f,
+                        animationSpec = tween(
+                            durationMillis = animationDelay - 100,
+                            easing = EaseInBack
+                        ),
                     ).value
                 )
                 .fillMaxSize()
