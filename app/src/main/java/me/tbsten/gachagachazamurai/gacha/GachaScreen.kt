@@ -3,9 +3,15 @@ package me.tbsten.gachagachazamurai.gacha
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,11 +35,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import me.tbsten.gachagachazamurai.R
 import me.tbsten.gachagachazamurai.component.clickableNoRipple
 import me.tbsten.gachagachazamurai.gacha.openAnimation.OpenAnimation
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun GachaScreenContent(
     backToTop: () -> Unit,
@@ -47,22 +59,54 @@ fun GachaScreenContent(
 
     BackHandler(enabled = !enableBackScreen) {}
 
-    Box(
+    ConstraintLayout(
         Modifier
             .clickableNoRipple(
                 enabled = step in GachaStep.STARTED..GachaStep.TURNED_FULL.prev!!
             ) {
                 step = step.next!!
             }
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
+        val (back, tap, gacha, startButton) = createRefs()
 
         IconButton(
             enabled = enableBackScreen,
-            modifier = Modifier.padding(4.dp),
+            modifier = Modifier.padding(4.dp).constrainAs(back) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+            },
             onClick = { backToTop() },
         ) {
             Icon(Icons.Default.ArrowBack, contentDescription = "back to top")
+        }
+
+        val showTapImage = step in GachaStep.STARTED..GachaStep.TURNED_FULL
+        val tapImageScale by animateFloatAsState(
+            label = "tap image scale",
+            targetValue = when (step) {
+                GachaStep.TURNED_HALF -> 1.2f
+                GachaStep.TURNED_FULL, GachaStep.TURNED_FULL.next -> 1.4f
+                else -> 1f
+            }
+        )
+        AnimatedVisibility(
+            visible = showTapImage,
+            enter = fadeIn(tween(delayMillis = 500)) + scaleIn(),
+            exit = fadeOut(),
+            modifier = Modifier
+                .scale(tapImageScale)
+                .zIndex(1f)
+                .constrainAs(tap) {
+                    top.linkTo(back.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
+        ) {
+            Image(
+                painterResource(R.drawable.tap_1),
+                contentDescription = "tap",
+            )
         }
 
         Gacha(
@@ -71,12 +115,19 @@ fun GachaScreenContent(
             onCompleteGachaFullRotate = {
                 step = GachaStep.UNOPENED_CAPSULE
             },
+            modifier = Modifier.constrainAs(gacha) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            },
         )
 
         StartButton(
             step = step,
-            modifier = Modifier
-                .align(Alignment.BottomCenter),
+            modifier = Modifier.constrainAs(startButton) {
+                bottom.linkTo(parent.bottom)
+            },
             onChangeStep = { step = it }
         )
 
@@ -117,7 +168,7 @@ fun GachaScreenContent(
                             },
                         )
                     }
-                    
+
                 }
             },
         )

@@ -14,6 +14,7 @@ import androidx.constraintlayout.compose.Dimension
 
 @Composable
 fun Gacha(
+    modifier: Modifier = Modifier,
     step: GachaStep,
     onChangeStep: (step: GachaStep) -> Unit,
     onCompleteGachaFullRotate: () -> Unit,
@@ -24,7 +25,7 @@ fun Gacha(
         animationSpec = tween(delayMillis = 400, durationMillis = 500)
     )
     ConstraintLayout(
-        Modifier.scale(gachaScale).fillMaxSize().padding(48.dp),
+        modifier.scale(gachaScale).fillMaxSize().padding(48.dp),
     ) {
         val (gacha, handle) = createRefs()
 
