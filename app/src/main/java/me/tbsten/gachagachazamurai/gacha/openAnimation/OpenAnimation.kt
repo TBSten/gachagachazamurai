@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Popup
@@ -29,6 +30,7 @@ fun OpenAnimation(
         targetValue = if (open) 0.4f else 0f,
         animationSpec = tween(durationMillis = 300),
     )
+    val openEffect = remember { Math.random() }
 
     AnimatedVisibility(
         visible = open,
@@ -42,12 +44,21 @@ fun OpenAnimation(
                     .fillMaxSize()
             ) {
 
-                InsideJokeCheck(
-                    step = step,
-                    prizeItem = prizeItem,
-                    onChangeStep = onChangeStep,
-                    prizeContent = prizeContent,
-                )
+                if (openEffect <= 0.5) {
+                    InsideJokeCheck(
+                        step = step,
+                        prizeItem = prizeItem,
+                        onChangeStep = onChangeStep,
+                        prizeContent = prizeContent,
+                    )
+                } else {
+                    Capsule(
+                        step = step,
+                        prizeItem = prizeItem,
+                        onChangeStep = onChangeStep,
+                        prizeContent = prizeContent,
+                    )
+                }
 
             }
         }

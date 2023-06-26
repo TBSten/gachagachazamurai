@@ -2,7 +2,9 @@ package me.tbsten.gachagachazamurai.gacha.openAnimation
 
 import android.util.Log
 import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Canvas
@@ -94,6 +96,7 @@ fun InsideJokeCheck(
             }
         )
     }
+    val enableDraw = !checkColor.isRunning
 
     BoxWithConstraints(
         Modifier.fillMaxSize(),
@@ -103,23 +106,36 @@ fun InsideJokeCheck(
         Canvas(
             Modifier
                 .rotate(checkRotate)
-                .alpha(checkAlpha)
-                .scale(checkScale)
+                .alpha(
+                    checkAlpha * animateFloatAsState(
+                        if (step === GachaStep.OPENED_CAPSULE) 0f else 1f,
+                        animationSpec = tween(durationMillis = 300, easing = EaseOut),
+                    ).value
+                )
+                .scale(
+                    checkScale * animateFloatAsState(
+                        if (step === GachaStep.OPENED_CAPSULE) 15f else 1f,
+                        animationSpec = tween(durationMillis = 300, easing = EaseOut),
+                    ).value
+                )
                 .fillMaxSize()
                 .pointerInput(Unit) {
                     detectDragGestures(
                         onDragStart = {
+                            if (!enableDraw) return@detectDragGestures
                             scope.launch {
                                 checkColor.animateTo(
                                     checkColor.value.copy(alpha = 1f),
                                     tween(durationMillis = 0),
                                 )
+                                history.clear()
                                 history.add(it)
                                 history.add(Offset(it.x + 1, it.y + 1))
                                 Log.d("debug-draw", "start:$it")
                             }
                         },
                         onDrag = { change, _ ->
+                            if (!enableDraw) return@detectDragGestures
                             change.position.let { pos ->
                                 history.add(Offset(pos.x, pos.y))
                             }
