@@ -1,6 +1,5 @@
 package me.tbsten.gachagachazamurai.gacha
 
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -20,11 +19,13 @@ fun GachaStand(
     step: GachaStep,
     modifier: Modifier = Modifier,
     onChangeStep: (step: GachaStep) -> Unit,
+    onCompleteGachaHalfRotate: () -> Unit,
     onCompleteGachaFullRotate: () -> Unit,
 ) {
     val gachaPainter = painterResource(R.drawable.gacha)
     val animateState = animateGachaStand(
         step = step,
+        onCompleteGachaHalfRotate = onCompleteGachaHalfRotate,
         onCompleteGachaFullRotate = onCompleteGachaFullRotate,
     )
 
@@ -40,14 +41,14 @@ fun GachaStand(
 @Composable
 private fun animateGachaStand(
     step: GachaStep,
-    onCompleteGachaFullRotate: () -> Unit
+    onCompleteGachaHalfRotate: () -> Unit,
+    onCompleteGachaFullRotate: () -> Unit,
 ): GachaStandAnimateState {
     // ガチャスタンドが左右に揺れて若干膨らんだり縮んだりするアニメーション
     val offsetX = remember { Animatable(0f) }
     LaunchedEffect(step) {
         when (step) {
             GachaStep.TURNED_HALF, GachaStep.TURNED_FULL -> {
-                val start = System.currentTimeMillis()
                 val offsetDelta = 5f
                 val durationMillis = 600
                 val count = 9
@@ -56,12 +57,11 @@ private fun animateGachaStand(
                     offsetX.animateTo(-offsetDelta, tween(durationMillis / count))
                 }
                 offsetX.animateTo(0f, tween(durationMillis / count))
-                val end = System.currentTimeMillis()
-                Log.d("debug-anim", "finish (${end - start}ms)")
             }
 
             else -> {}
         }
+        if (step == GachaStep.TURNED_HALF) onCompleteGachaHalfRotate()
         if (step == GachaStep.TURNED_FULL) onCompleteGachaFullRotate()
     }
     val offset = Offset(offsetX.value, 1f)

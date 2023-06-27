@@ -11,6 +11,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -67,12 +68,15 @@ fun GachaScreenContent(
         animationSpec = tween(delayMillis = 300, durationMillis = 700),
     )
 
+    var showTapMessage by remember { mutableStateOf(true) }
+
     ConstraintLayout(
         Modifier
             .clickableNoRipple(
                 enabled = step in GachaStep.STARTED..GachaStep.TURNED_FULL.prev!!
             ) {
                 step = step.next!!
+                showTapMessage = false
             }
             .background(background)
             .fillMaxSize(),
@@ -90,19 +94,18 @@ fun GachaScreenContent(
             Icon(Icons.Default.ArrowBack, contentDescription = "back to top")
         }
 
-        val showTapImage = step in GachaStep.STARTED..GachaStep.TURNED_FULL
         val tapImageScale by animateFloatAsState(
             label = "tap image scale",
             targetValue = when (step) {
                 GachaStep.TURNED_HALF -> 1.2f
                 GachaStep.TURNED_FULL, GachaStep.TURNED_FULL.next -> 1.4f
                 else -> 1f
-            }
+            },
         )
         AnimatedVisibility(
-            visible = showTapImage,
-            enter = fadeIn(tween(delayMillis = 500)) + scaleIn(),
-            exit = fadeOut(),
+            visible = showTapMessage && step in GachaStep.STARTED..GachaStep.TURNED_FULL,
+            enter = if (step == GachaStep.STARTED) fadeIn(tween(delayMillis = 500)) + scaleIn() else fadeIn() + slideInVertically { it / 2 },
+            exit = fadeOut() + slideOutVertically { -it / 2 },
             modifier = Modifier
                 .scale(tapImageScale)
                 .zIndex(1f)
@@ -121,8 +124,10 @@ fun GachaScreenContent(
         Gacha(
             step = step,
             onChangeStep = { step = it },
+            onCompleteGachaHalfRotate = { showTapMessage = true },
             onCompleteGachaFullRotate = {
                 step = GachaStep.UNOPENED_CAPSULE
+                showTapMessage = true
             },
             modifier = Modifier.constrainAs(gacha) {
                 top.linkTo(parent.top)

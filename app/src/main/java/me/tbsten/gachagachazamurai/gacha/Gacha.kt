@@ -17,6 +17,7 @@ fun Gacha(
     modifier: Modifier = Modifier,
     step: GachaStep,
     onChangeStep: (step: GachaStep) -> Unit,
+    onCompleteGachaHalfRotate: () -> Unit,
     onCompleteGachaFullRotate: () -> Unit,
 ) {
     val gachaScale by animateFloatAsState(
@@ -40,6 +41,7 @@ fun Gacha(
                 height = Dimension.fillToConstraints
             },
             onChangeStep = onChangeStep,
+            onCompleteGachaHalfRotate = onCompleteGachaHalfRotate,
             onCompleteGachaFullRotate = onCompleteGachaFullRotate,
         )
 
