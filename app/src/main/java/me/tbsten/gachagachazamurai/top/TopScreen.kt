@@ -42,18 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import me.tbsten.gachagachazamurai.R
 import me.tbsten.gachagachazamurai.component.clickableNoRipple
-
-val images = listOf(
-    R.drawable.milabo1,
-    R.drawable.dna,
-    R.drawable.ham1,
-    R.drawable.bakajanainoni1,
-    R.drawable.kirakiller1,
-    R.drawable.mirrotune1,
-    R.drawable.mouhu2,
-)
 
 @Composable
 fun TopScreenContent(
