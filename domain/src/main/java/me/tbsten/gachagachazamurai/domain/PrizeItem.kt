@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.data.prizeItem
+package me.tbsten.gachagachazamurai.domain
 
 import android.net.Uri
 
