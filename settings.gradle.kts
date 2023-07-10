@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "GachaGachaZamurai"
 include(":app")
 include(":ui")
+include(":database")
