@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
+    implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":database")))
 }
 
 kapt {
