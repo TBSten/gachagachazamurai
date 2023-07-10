@@ -1,5 +1,6 @@
 package me.tbsten.gachagachazamurai.database.thanks
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import me.tbsten.gachagachazamurai.domain.Thanks
@@ -16,12 +17,12 @@ fun ThanksEntity.toThanks(): Thanks =
     Thanks(
         id = id,
         name = name,
-        url = url,
+        url = Uri.parse(url),
     )
 
 fun Thanks.toEntity(): ThanksEntity =
     ThanksEntity(
         id = id,
         name = name,
-        url = url,
+        url = url.toString(),
     )
