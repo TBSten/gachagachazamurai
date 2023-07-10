@@ -17,3 +17,4 @@ rootProject.name = "GachaGachaZamurai"
 include(":app")
 include(":ui")
 include(":database")
+include(":data:prizeitem")
