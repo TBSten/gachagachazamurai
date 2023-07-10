@@ -55,4 +55,7 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
 
+    // navigation
+    implementation(libs.navigation.compose)
+
 }
