@@ -2,6 +2,9 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.ksp)
+    kotlin("kapt")
+    alias(libs.plugins.hiltAndroid)
 }
 
 android {
@@ -41,4 +44,19 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // room
+    implementation(libs.room.runtime)
+    implementation(libs.room.compiler)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
+
+    // hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+}
+
+kapt {
+    correctErrorTypes = true
 }
