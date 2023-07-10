@@ -91,9 +91,6 @@ dependencies {
     // coil
     implementation(libs.coil)
 
-    implementation(project(mapOf("path" to ":domain")))
-    implementation(project(mapOf("path" to ":database")))
-    implementation(project(mapOf("path" to ":file")))
 }
 
 kapt {
