@@ -60,9 +60,15 @@ dependencies {
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 
+    // navigation
+    implementation(libs.navigation.compose)
+
     // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    // hilt navigation compose
+    implementation(libs.hilt.navigation.compose)
 
     // coroutine
     implementation(libs.coroutine.android)
@@ -70,6 +76,7 @@ dependencies {
     // coil
     implementation(libs.coil)
 
+    implementation(project(":ui"))
 }
 
 kapt {
