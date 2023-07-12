@@ -11,6 +11,7 @@ data class ThanksEntity(
     val id: Int,
     val name: String,
     val url: String,
+    val image: String,
 )
 
 fun ThanksEntity.toThanks(): Thanks =
@@ -18,6 +19,7 @@ fun ThanksEntity.toThanks(): Thanks =
         id = id,
         name = name,
         url = Uri.parse(url),
+        image = Uri.parse(image),
     )
 
 fun Thanks.toEntity(): ThanksEntity =
@@ -25,4 +27,5 @@ fun Thanks.toEntity(): ThanksEntity =
         id = id,
         name = name,
         url = url.toString(),
+        image = image.toString(),
     )

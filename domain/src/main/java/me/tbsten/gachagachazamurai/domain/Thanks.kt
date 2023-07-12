@@ -6,4 +6,5 @@ data class Thanks(
     val id: Int,
     val name: String,
     val url: Uri,
+    val image: Uri,
 )
