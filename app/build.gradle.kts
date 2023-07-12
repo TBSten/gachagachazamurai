@@ -91,6 +91,7 @@ dependencies {
     // coil
     implementation(libs.coil)
 
+    implementation(project(":feature:settings"))
 }
 
 kapt {
