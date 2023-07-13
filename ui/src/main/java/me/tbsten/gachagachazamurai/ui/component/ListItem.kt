@@ -17,7 +17,7 @@ fun ListItem(
 ) {
     Row(
         Modifier
-            .clickable(onClick != null) { onClick?.invoke() }
+            .clickable { onClick?.invoke() }
             .fillMaxWidth().padding(horizontal = 8.dp, vertical = 16.dp)
     ) {
         content()
@@ -28,4 +28,10 @@ fun ListItem(
 @Composable
 fun ListItemPreview() {
     ListItem { Text("ListItem-Preview-1") }
+}
+
+@Preview
+@Composable
+fun ClickableListItemPreview() {
+    ListItem(onClick = {}) { Text("ListItem-Preview-1") }
 }
