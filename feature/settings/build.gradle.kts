@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.coil)
 
     implementation(project(":ui"))
+    implementation(project(":data:prizeitem"))
 }
 
 kapt {
