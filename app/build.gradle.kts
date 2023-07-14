@@ -44,7 +44,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.4.8"
     }
     packaging {
         resources {
@@ -92,6 +92,7 @@ dependencies {
     implementation(libs.coil)
 
     implementation(project(":feature:settings"))
+    implementation(project(":ui"))
 }
 
 kapt {
