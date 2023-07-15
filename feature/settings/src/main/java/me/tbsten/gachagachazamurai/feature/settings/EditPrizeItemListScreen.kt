@@ -1,6 +1,7 @@
 package me.tbsten.gachagachazamurai.feature.settings
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -10,9 +11,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -31,9 +34,17 @@ fun EditPrizeItemListScreen(
 ) {
     val prizeItems = editViewModel.prizeItems.collectAsState().value
 
-    LazyColumn {
+    LazyColumn(
+    ) {
         item {
             ScreenTitle { Text("景品") }
+        }
+        item {
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
+                IconButton(onClick = { editViewModel.refresh() }) {
+                    Icon(Icons.Default.Refresh, contentDescription = "リフレッシュ")
+                }
+            }
         }
         if (prizeItems != null) {
             items(prizeItems) { prizeItem ->
