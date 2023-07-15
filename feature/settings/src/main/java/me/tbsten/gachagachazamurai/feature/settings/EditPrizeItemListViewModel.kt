@@ -3,6 +3,7 @@ package me.tbsten.gachagachazamurai.feature.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -23,8 +24,23 @@ class EditPrizeItemListViewModel @Inject constructor(
     }
 
     fun refresh() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _prizeItems.update { prizeItemRepository.getAllPrizeItems() }
+        }
+    }
+
+    fun update(prizeItem: PrizeItem) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _prizeItems.update { prevPrizeItems ->
+                prevPrizeItems?.map {
+                    if (it.id == prizeItem.id) {
+                        prizeItemRepository.updatePrizeItem(prizeItem)
+                        prizeItem
+                    } else {
+                        it
+                    }
+                }
+            }
         }
     }
 }
