@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 
 const val settingsRoute = "settings"
 const val editPrizeItemListRoute = "settings/editPrizeItemList"
+const val addPrizeItemRoute = "settings/addPrizeItem"
 const val editTopImagesRoute = "settings/editTopImages"
 const val editThanksRoute = "settings/editThanksRoute"
 
@@ -17,13 +18,22 @@ fun NavGraphBuilder.settings(navController: NavController) {
             gotoEditThanksScreen = { navController.navigate(editThanksRoute) },
         )
     }
-    composable(editPrizeItemListRoute) {
-        EditPrizeItemListScreen()
-    }
+    editPrizeItem(navController)
     composable(editTopImagesRoute) {
         EditTopImagesScreen()
     }
     composable(editThanksRoute) {
         EditThanksScreen()
+    }
+}
+
+private fun NavGraphBuilder.editPrizeItem(navController: NavController) {
+    composable(editPrizeItemListRoute) {
+        EditPrizeItemListScreen(
+            gotoAddPrizeItemScreen = { navController.navigate(addPrizeItemRoute) },
+        )
+    }
+    composable(addPrizeItemRoute) {
+        AddPrizeItemScreen()
     }
 }

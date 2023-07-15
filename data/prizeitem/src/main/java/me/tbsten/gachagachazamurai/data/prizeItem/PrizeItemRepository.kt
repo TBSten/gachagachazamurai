@@ -28,10 +28,10 @@ class PrizeItemRepository @Inject constructor(
         }
     }
 
-    private suspend fun getAllPrizeItems() =
+    suspend fun getAllPrizeItems() =
         prizeItemDao.getAll().map { it.toPrizeItem() }
 
-    private suspend fun insertPrizeItem(prizeItem: PrizeItem) {
+    suspend fun insertPrizeItem(prizeItem: PrizeItem) {
         var saveTargetPrizeItem = prizeItem
         val imageUri = prizeItem.image
         if (imageUri?.scheme === "content") {
@@ -43,7 +43,7 @@ class PrizeItemRepository @Inject constructor(
         prizeItemDao.insert(saveTargetPrizeItem.toEntity())
     }
 
-    private suspend fun updatePrizeItem(prizeItem: PrizeItem) {
+    suspend fun updatePrizeItem(prizeItem: PrizeItem) {
         var saveTargetPrizeItem = prizeItem
         val imageUri = prizeItem.image
         if (imageUri?.scheme === "content") {
@@ -55,9 +55,9 @@ class PrizeItemRepository @Inject constructor(
         prizeItemDao.update(prizeItem.toEntity())
     }
 
-    private suspend fun deletePrizeItem(prizeItem: PrizeItem) =
+    suspend fun deletePrizeItem(prizeItem: PrizeItem) =
         prizeItemDao.delete(prizeItem.toEntity())
 
-    private suspend fun deletePrizeItem(prizeItemId: Int) =
+    suspend fun deletePrizeItem(prizeItemId: Int) =
         prizeItemDao.delete(prizeItemId)
 }
