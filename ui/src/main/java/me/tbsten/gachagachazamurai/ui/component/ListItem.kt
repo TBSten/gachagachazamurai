@@ -1,6 +1,7 @@
 package me.tbsten.gachagachazamurai.ui.component
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,14 +11,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ListItem(
     onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     Row(
         Modifier
-            .clickable { onClick?.invoke() }
+            .combinedClickable(
+                onClick = { onClick?.invoke() },
+                onLongClick = { onLongClick?.invoke() },
+            )
             .fillMaxWidth().padding(horizontal = 8.dp, vertical = 16.dp)
     ) {
         content()
