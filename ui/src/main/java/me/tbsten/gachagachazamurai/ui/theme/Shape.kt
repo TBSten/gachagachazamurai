@@ -2,7 +2,6 @@ package me.tbsten.gachagachazamurai.ui.theme
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Shapes
@@ -17,7 +16,7 @@ val shapes = Shapes(
     small = RoundedCornerShape(6.dp),
     medium = RoundedCornerShape(8.dp),
     large = RoundedCornerShape(12.dp),
-    extraLarge = CircleShape,
+    extraLarge = RoundedCornerShape(32.dp),
 )
 
 @Preview(widthDp = 200)
