@@ -43,4 +43,19 @@ class EditPrizeItemListViewModel @Inject constructor(
             }
         }
     }
+
+    fun delete(prizeItem: PrizeItem) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _prizeItems.update { prevPrizeItems ->
+                prevPrizeItems?.filter {
+                    if (it.id == prizeItem.id) {
+                        prizeItemRepository.deletePrizeItem(it)
+                        false
+                    } else {
+                        true
+                    }
+                }
+            }
+        }
+    }
 }
