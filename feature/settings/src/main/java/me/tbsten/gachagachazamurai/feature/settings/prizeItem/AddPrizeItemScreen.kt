@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.feature.settings
+package me.tbsten.gachagachazamurai.feature.settings.prizeItem
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

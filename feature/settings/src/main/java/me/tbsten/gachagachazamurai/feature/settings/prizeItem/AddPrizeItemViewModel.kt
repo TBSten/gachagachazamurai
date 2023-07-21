@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.feature.settings
+package me.tbsten.gachagachazamurai.feature.settings.prizeItem
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

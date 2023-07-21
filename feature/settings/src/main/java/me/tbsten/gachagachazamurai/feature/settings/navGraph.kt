@@ -3,6 +3,8 @@ package me.tbsten.gachagachazamurai.feature.settings
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import me.tbsten.gachagachazamurai.feature.settings.prizeItem.AddPrizeItemScreen
+import me.tbsten.gachagachazamurai.feature.settings.prizeItem.EditPrizeItemListScreen
 
 const val settingsRoute = "settings"
 const val editPrizeItemListRoute = "settings/editPrizeItemList"
