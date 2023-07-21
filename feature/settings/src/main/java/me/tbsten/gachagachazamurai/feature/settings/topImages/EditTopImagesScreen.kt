@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.feature.settings
+package me.tbsten.gachagachazamurai.feature.settings.topImages
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
