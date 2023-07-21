@@ -2,6 +2,7 @@ package me.tbsten.gachagachazamurai.file
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.io.path.createDirectory
@@ -24,6 +25,12 @@ class AppFileSource @Inject constructor(
             file
         }
         return Uri.fromFile(file)
+    }
+
+    fun deleteFile(filePath: String) {
+        val file = context.filesDir.resolve(filePath)
+        if (!file.exists()) Log.w("delete-file", "not exists $filePath (${file.absolutePath})")
+        file.delete()
     }
 
     fun getFiles(dir: String) =
