@@ -78,6 +78,7 @@ dependencies {
 
     implementation(project(":ui"))
     implementation(project(":data:prizeitem"))
+    implementation(project(":data:topImage"))
     implementation(project(":domain"))
 }
 
