@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/prizeitem" />
             <option value="$PROJECT_DIR$/data/thanks" />
+            <option value="$PROJECT_DIR$/data/topImage" />
             <option value="$PROJECT_DIR$/database" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/feature" />
