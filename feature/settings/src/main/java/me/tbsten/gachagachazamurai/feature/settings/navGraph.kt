@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import me.tbsten.gachagachazamurai.feature.settings.prizeItem.AddPrizeItemScreen
 import me.tbsten.gachagachazamurai.feature.settings.prizeItem.EditPrizeItemListScreen
+import me.tbsten.gachagachazamurai.feature.settings.thanks.EditThanksScreen
 import me.tbsten.gachagachazamurai.feature.settings.topImages.EditTopImagesScreen
 
 const val settingsRoute = "settings"

@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.feature.settings
+package me.tbsten.gachagachazamurai.feature.settings.thanks
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
