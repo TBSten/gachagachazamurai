@@ -39,4 +39,8 @@ class ThanksRepository @Inject constructor(
         }
         thanksDao.upsert(saveTargetThanks.toEntity())
     }
+
+    suspend fun deleteThanks(thanks: Thanks) {
+        thanksDao.delete(thanks.toEntity())
+    }
 }

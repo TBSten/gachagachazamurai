@@ -51,8 +51,13 @@ class EditThanksViewModel @Inject constructor(
 
     fun saveThanks(thanks: Thanks) {
         viewModelScope.launch(Dispatchers.IO) {
-
             thanksRepository.saveThanks(thanks)
+        }.invokeOnCompletion { refreshThanksList() }
+    }
+
+    fun deleteThanks(thanks: Thanks) {
+        viewModelScope.launch(Dispatchers.IO) {
+            thanksRepository.deleteThanks(thanks)
         }.invokeOnCompletion { refreshThanksList() }
     }
 }

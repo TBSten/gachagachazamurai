@@ -1,6 +1,7 @@
 package me.tbsten.gachagachazamurai.feature.settings
 
 import android.net.Uri
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,8 +19,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -42,6 +46,7 @@ import me.tbsten.gachagachazamurai.ui.component.ImageSelect
 import me.tbsten.gachagachazamurai.ui.component.ScreenTitle
 import me.tbsten.gachagachazamurai.ui.component.rememberBottomSheetState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EditThanksScreen(
     thanksViewModel: EditThanksViewModel = hiltViewModel(),
@@ -52,10 +57,12 @@ fun EditThanksScreen(
         item {
             ScreenTitle { Text("Thanks") }
         }
-        items(thanksList) { thanks ->
+        items(thanksList, key = { it.id }) { thanks ->
             ThanksItem(
+                modifier = Modifier.animateItemPlacement(),
                 thanks = thanks,
                 onSave = { thanksViewModel.saveThanks(it) },
+                onDelete = { thanksViewModel.deleteThanks(thanks) },
             )
         }
         item {
@@ -73,6 +80,7 @@ private fun ThanksItem(
     thanks: Thanks,
     modifier: Modifier = Modifier,
     onSave: (Thanks) -> Unit,
+    onDelete: () -> Unit,
 ) {
     val bottomSheetState = rememberBottomSheetState()
 
@@ -102,6 +110,7 @@ private fun ThanksItem(
             onSave(it)
             bottomSheetState.hide()
         },
+        onDelete = onDelete,
     )
 }
 
@@ -110,6 +119,7 @@ private fun ThanksEditSheet(
     bottomSheetState: BottomSheetState,
     thanks: Thanks,
     onSave: (Thanks) -> Unit,
+    onDelete: () -> Unit,
 ) {
     BottomSheet(
         bottomSheetState,
@@ -159,6 +169,21 @@ private fun ThanksEditSheet(
                     Text("保存")
                 }
             }
+
+            Divider(Modifier.padding(vertical = 16.dp))
+
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                Button(
+                    onClick = onDelete,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error,
+                        contentColor = MaterialTheme.colorScheme.onError
+                    ),
+                ) {
+                    Text("削除")
+                }
+            }
+
         }
     }
 
