@@ -77,8 +77,10 @@ dependencies {
     implementation(libs.coil)
 
     implementation(project(":ui"))
+    implementation(project(":file"))
     implementation(project(":data:prizeitem"))
     implementation(project(":data:topImage"))
+    implementation(project(":data:thanks"))
     implementation(project(":domain"))
 }
 

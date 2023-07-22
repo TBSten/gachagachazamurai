@@ -18,6 +18,7 @@ class AppFileSource @Inject constructor(
             parentDir.toPath().createDirectory()
         }
         val resolver = context.contentResolver
+        Log.d("save", "$uri")
         val file = resolver.openInputStream(uri).use {
             val file = context.filesDir.resolve(dst)
             val fileStream = file.outputStream()

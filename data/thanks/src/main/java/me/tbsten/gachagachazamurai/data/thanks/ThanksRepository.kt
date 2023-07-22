@@ -29,4 +29,14 @@ class ThanksRepository @Inject constructor(
         thanksDao.deleteAll()
         thanksDao.upsert(*saveTargetThanks.map { it.toEntity() }.toTypedArray())
     }
+
+    suspend fun saveThanks(thanks: Thanks) {
+        var saveTargetThanks = thanks
+        if (thanks.image.scheme == "content") {
+            val imageFileName = thanks.image.hashCode().toString(36)
+            val savedImageUri = fileSource.save(thanks.image, imageFileName)
+            saveTargetThanks = thanks.copy(image = savedImageUri)
+        }
+        thanksDao.upsert(saveTargetThanks.toEntity())
+    }
 }
