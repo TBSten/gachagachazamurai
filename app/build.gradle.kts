@@ -92,6 +92,7 @@ dependencies {
     implementation(libs.coil)
 
     implementation(project(":feature:settings"))
+    implementation(project(":feature:gacha"))
     implementation(project(":ui"))
 }
 
