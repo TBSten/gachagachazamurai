@@ -42,6 +42,7 @@ import me.tbsten.gachagachazamurai.feature.gacha.R
 
 @Composable
 fun PrizeListScreen(
+    gotoGachaPlay: () -> Unit,
     prizeListViewModel: PrizeListViewModel = hiltViewModel(),
 ) {
     val prizeItems = prizeListViewModel.prizeItems.collectAsState().value
@@ -49,7 +50,7 @@ fun PrizeListScreen(
     Scaffold(
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = {},
+                onClick = { gotoGachaPlay() },
             ) {
                 Icon(Icons.Default.ArrowForwardIos, contentDescription = "ガチャを引く")
                 Text("ガチャを引く")

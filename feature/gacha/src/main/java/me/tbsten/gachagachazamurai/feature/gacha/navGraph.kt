@@ -14,7 +14,9 @@ const val gachaPlayRoute = "gacha/play"
 fun NavGraphBuilder.gacha(navController: NavController) {
     navigation(route = gachaRoute, startDestination = prizeListRoute) {
         composable(prizeListRoute) {
-            PrizeListScreen()
+            PrizeListScreen(
+                gotoGachaPlay = { navController.navigate(gachaPlayRoute) },
+            )
         }
         composable(gachaPlayRoute) {
             GachaScreen()
