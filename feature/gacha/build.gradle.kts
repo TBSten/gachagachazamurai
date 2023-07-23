@@ -71,6 +71,12 @@ dependencies {
     // hilt navigation compose
     implementation(libs.hilt.navigation.compose)
 
+    // coil
+    implementation(libs.coil)
+
+    implementation(project(":ui"))
+    implementation(project(":domain"))
+    implementation(project(":data:prizeitem"))
 }
 
 kapt {
