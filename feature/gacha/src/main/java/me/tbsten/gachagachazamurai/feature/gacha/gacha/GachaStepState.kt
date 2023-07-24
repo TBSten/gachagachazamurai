@@ -8,21 +8,15 @@ import androidx.compose.runtime.setValue
 
 @Composable
 internal fun rememberGachaStepState(): GachaStepState {
-    var currentStepIndex by remember { mutableStateOf(0) }
-    return object : GachaStepState {
-        override val current
-            get() = steps[currentStepIndex]
-        override val currentIndex
-            get() = currentStepIndex
-
-        override fun next() {
-            currentStepIndex++
-        }
-    }
+    return remember { GachaStepState() }
 }
 
-internal interface GachaStepState {
+class GachaStepState {
+    var currentIndex by mutableStateOf(0)
     val current: GachaStep
-    val currentIndex: Int
-    fun next()
+        get() = steps[currentIndex]
+
+    fun next() {
+        currentIndex++
+    }
 }
