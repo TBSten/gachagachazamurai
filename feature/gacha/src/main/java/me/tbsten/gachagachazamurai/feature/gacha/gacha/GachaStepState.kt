@@ -7,9 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
 @Composable
-internal fun rememberGachaStepState(
-    steps: List<GachaStep>,
-): GachaStepState {
+internal fun rememberGachaStepState(): GachaStepState {
     var currentStepIndex by remember { mutableStateOf(0) }
     return object : GachaStepState {
         override val current
