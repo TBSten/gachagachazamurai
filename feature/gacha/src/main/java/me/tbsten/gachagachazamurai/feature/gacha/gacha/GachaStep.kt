@@ -1,5 +1,7 @@
 package me.tbsten.gachagachazamurai.feature.gacha.gacha
 
+import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.OpenActionState
+
 internal interface GachaStep {
     object BeforeStart : GachaStep
     data class Spinning(val progress: Float) : GachaStep

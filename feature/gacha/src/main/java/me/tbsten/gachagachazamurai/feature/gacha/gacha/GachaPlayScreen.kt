@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.unit.dp
+import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.OpenActionPopup
 
 @Composable
 fun GachaPlayScreen() {

@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.feature.gacha.gacha
+package me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction
 
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.tween
