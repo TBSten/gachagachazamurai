@@ -37,7 +37,11 @@ internal fun Gacha(
     val handlePainter = painterResource(R.drawable.gacha_handle)
     val standAspect = standPainter.intrinsicSize.let { it.width / it.height }
 
-    val scale by animateFloatAsState(label = "gacha scale", targetValue = state.scale)
+    val scale by animateFloatAsState(
+        label = "gacha scale",
+        targetValue = state.scale,
+        animationSpec = tween(durationMillis = 1000),
+    )
     val handleRotate by animateFloatAsState(
         label = "gacha handle rotate",
         targetValue = state.handleRotate,
