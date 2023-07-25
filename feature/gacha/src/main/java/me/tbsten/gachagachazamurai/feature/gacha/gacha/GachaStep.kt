@@ -1,10 +1,12 @@
 package me.tbsten.gachagachazamurai.feature.gacha.gacha
 
 internal interface GachaStep {
+    object BeforeStart : GachaStep
     data class Spinning(val progress: Float) : GachaStep
     data class RunningAction(val progress: Float) : GachaStep
+    object Opened : GachaStep
     companion object {
-        val beforeStart = object : GachaStep {}
+        val beforeStart = BeforeStart
         fun spinning(progress: Float): GachaStep {
             if (progress < 0) throw IllegalArgumentException()
             if (1 <= progress) return runningAction(0.0f)
@@ -17,7 +19,7 @@ internal interface GachaStep {
             return RunningAction(progress)
         }
 
-        val opened = object : GachaStep {}
+        val opened = Opened
     }
 }
 
@@ -42,8 +44,8 @@ internal val steps = listOf(
 )
 
 internal val GachaStepState.gachaState: GachaState
-    get() = when (val currentStep = this.current) {
-        GachaStep.beforeStart ->
+    get() = when (val currentStep = this.currentStep) {
+        is GachaStep.BeforeStart ->
             GachaState(
                 scale = 0.8f,
                 enableRotate = false,
@@ -57,12 +59,24 @@ internal val GachaStepState.gachaState: GachaState
                 handleRotate = currentStep.progress * 360,
             )
 
-        is GachaStep.RunningAction ->
+        is GachaStep.RunningAction,
+        is GachaStep.Opened ->
             GachaState(
                 scale = 1.0f,
                 enableRotate = false,
                 handleRotate = 360f,
             )
 
-        else -> throw IllegalStateException("$this can not convert to GachaState")
+        else -> throw IllegalStateException("undefined to convert $currentStep to GachaState")
+    }
+
+internal val GachaStepState.openActionState: OpenActionState
+    get() = when (currentStep) {
+        is GachaStep.BeforeStart,
+        is GachaStep.Spinning -> OpenActionState(open = false)
+
+        is GachaStep.RunningAction,
+        is GachaStep.Opened -> OpenActionState(open = true)
+
+        else -> throw IllegalStateException("undefined to convert $this to OpenActionState")
     }

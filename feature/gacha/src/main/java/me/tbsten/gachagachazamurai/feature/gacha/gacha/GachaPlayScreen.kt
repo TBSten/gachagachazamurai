@@ -22,9 +22,10 @@ import androidx.compose.ui.unit.dp
 fun GachaPlayScreen() {
     val gachaStepState = rememberGachaStepState()
     val gachaState = gachaStepState.gachaState
+    val openActionState = gachaStepState.openActionState
 
     Box(Modifier.fillMaxSize()) {
-        Text("${gachaStepState.current}", modifier = Modifier.align(Alignment.TopCenter))
+        Text("${gachaStepState.currentStep}", modifier = Modifier.align(Alignment.TopCenter))
         Gacha(
             modifier = Modifier
                 .padding(48.dp)
@@ -43,7 +44,12 @@ fun GachaPlayScreen() {
         )
     }
 
-    OpenActionPopup()
+    OpenActionPopup(
+        state = openActionState,
+        onComplete = {
+            gachaStepState.currentStep = GachaStep.opened
+        },
+    )
 
 }
 
