@@ -24,8 +24,8 @@ fun GachaPlayScreen() {
                 .align(Alignment.Center)
                 .fillMaxSize(),
             state = gachaState,
-            onTapHandle = { gachaState.handleRotate += 180 },
-            onRotate = { gachaStepState.next() },
+            onRotate = { gachaState.handleRotate += 180 },
+            onRotateFinished = { gachaStepState.next() },
         )
         StartButton(
             modifier = Modifier.align(Alignment.BottomCenter),
