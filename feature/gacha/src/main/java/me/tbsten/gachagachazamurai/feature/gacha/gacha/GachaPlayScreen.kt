@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun GachaPlayScreen() {
     val gachaStepState = rememberGachaStepState()
+    val gachaState = gachaStepState.gachaState
 
     Box(Modifier.fillMaxSize()) {
         Text("${gachaStepState.current}", modifier = Modifier.align(Alignment.TopCenter))
@@ -29,10 +30,16 @@ fun GachaPlayScreen() {
                 .padding(48.dp)
                 .align(Alignment.Center)
                 .fillMaxSize(),
+            state = gachaState,
+            onTapHandle = { gachaState.handleRotate += 180 },
+            onRotate = { gachaStepState.next() },
         )
         StartButton(
             modifier = Modifier.align(Alignment.BottomCenter),
-            onStart = { gachaStepState.next() },
+            onStart = {
+                gachaStepState.next()
+                gachaState.enableRotate = true
+            },
         )
     }
 

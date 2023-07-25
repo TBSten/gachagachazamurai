@@ -11,7 +11,7 @@ internal fun rememberGachaStepState(): GachaStepState {
     return remember { GachaStepState() }
 }
 
-class GachaStepState {
+internal class GachaStepState {
     var currentIndex by mutableStateOf(0)
     val current: GachaStep
         get() = steps[currentIndex]

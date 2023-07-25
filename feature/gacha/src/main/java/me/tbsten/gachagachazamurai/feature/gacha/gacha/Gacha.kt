@@ -1,11 +1,20 @@
 package me.tbsten.gachagachazamurai.feature.gacha.gacha
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
@@ -19,13 +28,30 @@ import me.tbsten.gachagachazamurai.feature.gacha.R
 
 @Composable
 internal fun Gacha(
+    state: GachaState,
     modifier: Modifier = Modifier,
+    onRotate: (Float) -> Unit,
+    onTapHandle: () -> Unit,
 ) {
     val standPainter = painterResource(R.drawable.gacha_stand)
     val handlePainter = painterResource(R.drawable.gacha_handle)
     val standAspect = standPainter.intrinsicSize.let { it.width / it.height }
 
-    BoxWithConstraints(modifier) {
+    val scale by animateFloatAsState(label = "gacha scale", targetValue = state.scale)
+    val handleRotate by animateFloatAsState(
+        label = "gacha handle rotate",
+        targetValue = state.handleRotate,
+        animationSpec = tween(durationMillis = 800),
+        finishedListener = {
+            onRotate(it)
+        },
+    )
+    val isRotating = handleRotate != state.handleRotate
+
+    BoxWithConstraints(
+        modifier
+            .scale(scale)
+    ) {
         val standRect = calcInsideBoxRect(DpSize(maxWidth, maxHeight), standAspect)
         Image(
             modifier = Modifier
@@ -41,7 +67,9 @@ internal fun Gacha(
                     x = standRect.left + standRect.width * 107 / 273,
                     y = standRect.top + standRect.height * 210 / 373
                 )
-                .size(width = standRect.width * 60 / 273, height = standRect.height * 58 / 373),
+                .size(width = standRect.width * 60 / 273, height = standRect.height * 58 / 373)
+                .clickable(enabled = state.enableRotate && !isRotating, onClick = onTapHandle)
+                .rotate(handleRotate),
             painter = handlePainter,
             contentDescription = "gacha handle",
             contentScale = ContentScale.FillBounds,
@@ -91,3 +119,14 @@ private fun calcHeightByAspectWidth(aspect: Float, width: Float) =
 
 private fun calcHeightByAspectWidth(aspect: Float, width: Dp) =
     width / aspect
+
+@Stable
+class GachaState(
+    scale: Float,
+    enableRotate: Boolean,
+    handleRotate: Float,
+) {
+    var scale by mutableStateOf(scale)
+    var enableRotate by mutableStateOf(enableRotate)
+    var handleRotate by mutableStateOf(handleRotate)
+}
