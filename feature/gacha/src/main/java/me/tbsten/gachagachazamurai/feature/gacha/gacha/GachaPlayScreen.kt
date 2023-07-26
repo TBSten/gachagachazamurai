@@ -15,6 +15,8 @@ import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.OpenActionPopu
 @Composable
 fun GachaPlayScreen(
     gachaPlayViewModel: GachaPlayViewModel = hiltViewModel(),
+    renavigate: () -> Unit,
+    backTop: () -> Unit,
 ) {
     val prizeItem = gachaPlayViewModel.prizeItem.collectAsState().value
 
@@ -55,6 +57,8 @@ fun GachaPlayScreen(
             state = gachaResultState,
             prizeItem = prizeItem,
             onClose = { gachaStepState.currentIndex = 0 },
+            onRestart = renavigate,
+            onBackTop = backTop,
         )
     }
 

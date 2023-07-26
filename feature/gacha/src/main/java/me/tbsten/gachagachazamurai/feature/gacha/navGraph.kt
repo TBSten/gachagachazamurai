@@ -19,7 +19,13 @@ fun NavGraphBuilder.gacha(navController: NavController) {
             )
         }
         composable(gachaPlayRoute) {
-            GachaPlayScreen()
+            GachaPlayScreen(
+                renavigate = {
+                    navController.popBackStack()
+                    navController.navigate(gachaPlayRoute)
+                },
+                backTop = {},
+            )
         }
     }
 }

@@ -49,6 +49,8 @@ fun GachaResultPopup(
     state: GachaResultState,
     prizeItem: PrizeItem,
     onClose: () -> Unit,
+    onRestart: () -> Unit,
+    onBackTop: () -> Unit,
 ) {
     if (state.open) {
         val visibleState = remember {
@@ -90,7 +92,7 @@ fun GachaResultPopup(
                             enter = slideInVertically(moreButtonAnimSpec()) { 100 }
                                     + fadeIn(moreButtonAnimSpec()),
                         ).zIndex(999f),
-                        onClick = {},
+                        onClick = onRestart,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
                     ) {
                         Text(text = "もう一度引く", fontSize = 20.sp)
@@ -103,7 +105,7 @@ fun GachaResultPopup(
                             enter = slideInVertically(backButtonAnimSpec()) { 100 }
                                     + fadeIn(backButtonAnimSpec()),
                         ).zIndex(999f),
-                        onClick = {},
+                        onClick = onBackTop,
                     ) {
                         Text("トップに戻る")
                     }
