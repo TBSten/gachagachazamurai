@@ -170,35 +170,9 @@ private fun GachaResultCard(
                 ) {
                     Box(Modifier.background(Color.Red).fillMaxWidth().aspectRatio(1f))
                 }
-
-                val infiniteTransition = rememberInfiniteTransition()
-                val rarityOffsetY by infiniteTransition.animateFloat(
-                    initialValue = 0f,
-                    targetValue = 20f,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(durationMillis = 3000, delayMillis = 500),
-                        repeatMode = RepeatMode.Reverse,
-                    ),
-                )
-
-                val rarityPainter = painterResource(
-                    when (prizeItem.rarity) {
-                        PrizeItem.Rarity.NORMAL -> R.drawable.rarity_normal
-                        PrizeItem.Rarity.RARE -> R.drawable.rarity_rare
-                        PrizeItem.Rarity.SUPER_RARE -> R.drawable.rarity_super_rare
-                    }
-                )
-                Image(
-                    painter = rarityPainter,
-                    contentDescription = prizeItem.rarity.displayName,
+                RarityImage(
+                    rarity = prizeItem.rarity,
                     modifier = Modifier
-                        .width(100.dp)
-                        .aspectRatio(rarityPainter)
-                        .graphicsLayer(
-                            rotationZ = 20f,
-                            translationY = rarityOffsetY,
-                            transformOrigin = TransformOrigin(0f, 0f),
-                        )
                         .align(Alignment.TopEnd)
                         .animateEnterExit(
                             enter = rarityEnterTransition,
@@ -244,4 +218,45 @@ private fun GachaResultCard(
 
         }
     }
+}
+
+@Composable
+private fun RarityImage(
+    rarity: PrizeItem.Rarity,
+    modifier: Modifier = Modifier,
+) {
+    val infiniteTransition = rememberInfiniteTransition()
+    val rarityOffsetY by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 20f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 3000, delayMillis = 500),
+            repeatMode = RepeatMode.Reverse,
+        ),
+    )
+
+    val rarityPainter = painterResource(
+        when (rarity) {
+            PrizeItem.Rarity.NORMAL -> R.drawable.rarity_normal
+            PrizeItem.Rarity.RARE -> R.drawable.rarity_rare
+            PrizeItem.Rarity.SUPER_RARE -> R.drawable.rarity_super_rare
+        }
+    )
+    Image(
+        painter = rarityPainter,
+        contentDescription = rarity.displayName,
+        modifier = Modifier
+            .width(100.dp)
+            .aspectRatio(rarityPainter)
+            .graphicsLayer(
+                rotationZ = 20f,
+                translationY = rarityOffsetY,
+                transformOrigin = TransformOrigin(0f, 0f),
+            )
+            .then(modifier)
+//            .align(Alignment.TopEnd)
+//            .animateEnterExit(
+//                enter = rarityEnterTransition,
+//            ),
+    )
 }
