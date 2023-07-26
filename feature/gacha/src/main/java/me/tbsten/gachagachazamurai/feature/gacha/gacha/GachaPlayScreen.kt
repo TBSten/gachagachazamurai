@@ -28,7 +28,7 @@ fun GachaPlayScreen() {
             onRotateFinished = { gachaStepState.next() },
         )
         StartButton(
-            modifier = Modifier.align(Alignment.BottomCenter),
+            modifier = Modifier.padding(bottom = 40.dp).align(Alignment.BottomCenter),
             onStart = {
                 gachaStepState.next()
                 gachaState.enableRotate = true

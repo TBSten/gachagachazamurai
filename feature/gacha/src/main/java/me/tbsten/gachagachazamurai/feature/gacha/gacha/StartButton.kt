@@ -12,6 +12,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -33,7 +34,10 @@ internal fun StartButton(
         Button(
             onClick = { visibleState.targetState = false },
         ) {
-            Text("ガチャを引く")
+            Text(
+                text = "ガチャを引く",
+                fontSize = 40.sp,
+            )
         }
     }
 }
