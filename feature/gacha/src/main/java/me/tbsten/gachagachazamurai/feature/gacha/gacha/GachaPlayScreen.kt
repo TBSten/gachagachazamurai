@@ -5,16 +5,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.OpenActionPopup
 
 @Composable
-fun GachaPlayScreen() {
+fun GachaPlayScreen(
+    gachaPlayViewModel: GachaPlayViewModel = hiltViewModel(),
+) {
+    val prizeItem = gachaPlayViewModel.prizeItem.collectAsState().value
+
     val gachaStepState = rememberGachaStepState()
     val gachaState = gachaStepState.gachaState
     val openActionState = gachaStepState.openActionState
+    val gachaResultState = gachaStepState.gachaResultState
 
     Box(Modifier.fillMaxSize()) {
         Text("${gachaStepState.currentStep}", modifier = Modifier.align(Alignment.TopCenter))
@@ -42,5 +49,13 @@ fun GachaPlayScreen() {
             gachaStepState.currentStep = GachaStep.opened
         },
     )
+
+    if (prizeItem != null) {
+        GachaResultPopup(
+            state = gachaResultState,
+            prizeItem = prizeItem,
+            onClose = { gachaStepState.currentIndex = 0 },
+        )
+    }
 
 }

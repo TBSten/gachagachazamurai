@@ -14,10 +14,10 @@ class PrizeItemRepository @Inject constructor(
 ) {
     private val prizeItemDao = db.prizeItemDao()
 
-    private suspend fun getRandomPrizeItem() =
+    suspend fun getRandomPrizeItem() =
         prizeItemDao.getRandom().toPrizeItem()
 
-    private suspend fun payoutPrizeItem(prizeItemId: Int) {
+    suspend fun payoutPrizeItem(prizeItemId: Int) {
         db.withTransaction {
             val prizeItem = prizeItemDao.getOne(prizeItemId)
             if (prizeItem.stock <= 0) {

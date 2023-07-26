@@ -82,3 +82,18 @@ internal val GachaStepState.openActionState: OpenActionState
 
         else -> throw IllegalStateException("undefined to convert $this to OpenActionState")
     }
+
+internal val GachaStepState.gachaResultState: GachaResultState
+    get() = when (currentStep) {
+        is GachaStep.BeforeStart,
+        is GachaStep.Spinning,
+        is GachaStep.RunningAction -> GachaResultState(
+            open = false,
+        )
+
+        is GachaStep.Opened -> GachaResultState(
+            open = true,
+        )
+
+        else -> throw IllegalStateException("undefined to convert $this to GachaResultState")
+    }
