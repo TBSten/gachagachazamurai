@@ -1,5 +1,6 @@
 package me.tbsten.gachagachazamurai.feature.gacha.gacha
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -8,14 +9,17 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
@@ -30,21 +34,21 @@ import me.tbsten.gachagachazamurai.ui.modifier.clickableNoRipple
 
 @Composable
 internal fun Gacha(
-    state: GachaState,
-    modifier: Modifier = Modifier,
+    gachaState: GachaState,
     onRotate: () -> Unit,
     onRotateFinished: (Float) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val standPainter = painterResource(R.drawable.gacha_stand)
     val handlePainter = painterResource(R.drawable.gacha_handle)
     val standAspect = standPainter.intrinsicSize.let { it.width / it.height }
 
     BoxWithConstraints(
-        modifier.animateGacha(state)
+        modifier.animateGacha(gachaState)
     ) {
         val standRect = calcInsideBoxRect(DpSize(maxWidth, maxHeight), standAspect)
 
-        val rotateState = rememberRotateState(gachaState = state, onRotate = onRotateFinished)
+        val rotateState = rememberRotateState(gachaState = gachaState, onRotate = onRotateFinished)
         Image(
             modifier = Modifier
                 .size(standRect.width, standRect.height)
@@ -53,7 +57,7 @@ internal fun Gacha(
                     enabled = rotateState.enable,
                     onClick = onRotate,
                 )
-                .animateGachaStand(gachaState = state),
+                .animateGachaStand(gachaState = gachaState, rotateState),
             painter = standPainter,
             contentDescription = "gacha stand",
             contentScale = ContentScale.FillBounds,
@@ -133,34 +137,50 @@ class GachaState(
     var handleRotate by mutableStateOf(handleRotate)
 }
 
-@Composable
-private fun Modifier.animateGacha(state: GachaState): Modifier {
+private fun Modifier.animateGacha(state: GachaState): Modifier = composed {
     val scale by animateFloatAsState(
         label = "gacha scale",
         targetValue = state.scale,
         animationSpec = tween(durationMillis = 1000),
     )
-    return composed {
+    composed {
         scale(scale)
     }
 }
 
-@Composable
 private fun Modifier.animateGachaHandle(
     state: RotateState,
-): Modifier {
-    return composed {
+): Modifier = composed {
+    composed {
         rotate(state.currentRotate)
     }
 }
 
-@Composable
 private fun Modifier.animateGachaStand(
     gachaState: GachaState,
-): Modifier {
-    return composed {
-        this
+    rotateState: RotateState,
+): Modifier = composed {
+    val shouldShake = rotateState.isRotating
+    val offsetX = remember { Animatable(0f) }
+    LaunchedEffect(shouldShake) {
+        if (shouldShake) {
+            var amplitude = 30f
+            while (true) {
+                offsetX.animateTo(
+                    if (offsetX.value > 0) -amplitude else amplitude,
+                    animationSpec = tween(durationMillis = 1000 / 7 / 2),
+                )
+                amplitude = amplitude * 2 / 3
+                if (amplitude <= 0) break
+            }
+        } else {
+            offsetX.animateTo(0f)
+        }
     }
+
+    graphicsLayer(
+        translationX = offsetX.value,
+    )
 }
 
 @Composable

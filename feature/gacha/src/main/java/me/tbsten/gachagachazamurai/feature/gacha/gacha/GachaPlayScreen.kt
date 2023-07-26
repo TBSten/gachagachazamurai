@@ -23,7 +23,7 @@ fun GachaPlayScreen() {
                 .padding(48.dp)
                 .align(Alignment.Center)
                 .fillMaxSize(),
-            state = gachaState,
+            gachaState = gachaState,
             onRotate = { gachaState.handleRotate += 180 },
             onRotateFinished = { gachaStepState.next() },
         )
