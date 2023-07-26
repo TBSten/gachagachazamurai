@@ -1,11 +1,14 @@
 package me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction
 
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -33,7 +36,6 @@ import me.tbsten.gachagachazamurai.feature.gacha.R
 import me.tbsten.gachagachazamurai.ui.modifier.aspectRatio
 import me.tbsten.gachagachazamurai.ui.modifier.clickableNoRipple
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun CapsuleOpenAction(
     onComplete: () -> Unit,
@@ -62,34 +64,46 @@ internal fun CapsuleOpenAction(
         }
 
         // capsule
-        Box(Modifier.wrapContentSize()) {
-            Image(
-                painter = capsulePainter,
-                contentDescription = "カプセル",
-                modifier = Modifier
-                    .alpha(0f)
-                    .width(capsuleWidth)
-                    .aspectRatio(capsulePainter),
-            )
+        val visibleState = remember {
+            MutableTransitionState(false).apply {
+                targetState = true
+            }
+        }
+        AnimatedVisibility(
+            visibleState = visibleState,
+            modifier = Modifier.wrapContentSize(),
+            enter = slideInVertically() + fadeIn(),
+            exit = ExitTransition.None,
+        ) {
+            Box(Modifier.wrapContentSize()) {
+                Image(
+                    painter = capsulePainter,
+                    contentDescription = "カプセル",
+                    modifier = Modifier
+                        .alpha(0f)
+                        .width(capsuleWidth)
+                        .aspectRatio(capsulePainter),
+                )
 
-            Image(
-                painter = capsuleTopPainter,
-                contentDescription = "カプセル ふた",
-                modifier = Modifier
-                    .animateCapsuleTop(capsuleAnimateState)
-                    .width(capsuleWidth)
-                    .aspectRatio(capsuleTopPainter)
-                    .align(Alignment.TopCenter),
-            )
-            Image(
-                painter = capsuleBottomPainter,
-                contentDescription = "カプセル 底",
-                modifier = Modifier
-                    .animateCapsuleBottom(capsuleAnimateState)
-                    .width(capsuleWidth)
-                    .aspectRatio(capsuleBottomPainter)
-                    .align(Alignment.BottomCenter),
-            )
+                Image(
+                    painter = capsuleTopPainter,
+                    contentDescription = "カプセル ふた",
+                    modifier = Modifier
+                        .animateCapsuleTop(capsuleAnimateState)
+                        .width(capsuleWidth)
+                        .aspectRatio(capsuleTopPainter)
+                        .align(Alignment.TopCenter),
+                )
+                Image(
+                    painter = capsuleBottomPainter,
+                    contentDescription = "カプセル 底",
+                    modifier = Modifier
+                        .animateCapsuleBottom(capsuleAnimateState)
+                        .width(capsuleWidth)
+                        .aspectRatio(capsuleBottomPainter)
+                        .align(Alignment.BottomCenter),
+                )
+            }
         }
 
     }
