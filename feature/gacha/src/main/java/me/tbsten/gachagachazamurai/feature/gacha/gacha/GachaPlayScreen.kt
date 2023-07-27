@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.OpenActionPopup
+import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.OpenAction
 
 @Composable
 fun GachaPlayScreen(
@@ -25,41 +25,45 @@ fun GachaPlayScreen(
     val openActionState = gachaStepState.openActionState
     val gachaResultState = gachaStepState.gachaResultState
 
-    Box(Modifier.fillMaxSize()) {
-        Text("${gachaStepState.currentStep}", modifier = Modifier.align(Alignment.TopCenter))
-        Gacha(
-            modifier = Modifier
-                .padding(48.dp)
-                .align(Alignment.Center)
-                .fillMaxSize(),
-            gachaState = gachaState,
-            onRotate = { gachaState.handleRotate += 180 },
-            onRotateFinished = { gachaStepState.next() },
-        )
-        StartButton(
-            modifier = Modifier.padding(bottom = 40.dp).align(Alignment.BottomCenter),
-            onStart = {
-                gachaStepState.next()
-                gachaState.enableRotate = true
+    Box {
+        Box(Modifier.fillMaxSize()) {
+            Text("${gachaStepState.currentStep}", modifier = Modifier.align(Alignment.TopCenter))
+            Gacha(
+                modifier = Modifier
+                    .padding(48.dp)
+                    .align(Alignment.Center)
+                    .fillMaxSize(),
+                gachaState = gachaState,
+                onRotate = { gachaState.handleRotate += 180 },
+                onRotateFinished = { gachaStepState.next() },
+            )
+            StartButton(
+                modifier = Modifier.padding(bottom = 40.dp).align(Alignment.BottomCenter),
+                onStart = {
+                    gachaStepState.next()
+                    gachaState.enableRotate = true
+                },
+            )
+        }
+
+        OpenAction(
+            state = openActionState,
+            onComplete = {
+                gachaStepState.currentStep = GachaStep.opened
             },
         )
-    }
 
-    OpenActionPopup(
-        state = openActionState,
-        onComplete = {
-            gachaStepState.currentStep = GachaStep.opened
-        },
-    )
+        if (prizeItem != null) {
+            GachaResult(
+                state = gachaResultState,
+                prizeItem = prizeItem,
+                onClose = { gachaStepState.currentIndex = 0 },
+                onRestart = renavigate,
+                onBackTop = backTop,
+            )
+        }
 
-    if (prizeItem != null) {
-        GachaResultPopup(
-            state = gachaResultState,
-            prizeItem = prizeItem,
-            onClose = { gachaStepState.currentIndex = 0 },
-            onRestart = renavigate,
-            onBackTop = backTop,
-        )
+
     }
 
 }

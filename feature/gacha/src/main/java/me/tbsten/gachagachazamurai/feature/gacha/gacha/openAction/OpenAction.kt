@@ -15,10 +15,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.window.Popup
 
 @Composable
-internal fun OpenActionPopup(
+internal fun OpenAction(
     state: OpenActionState,
     onComplete: () -> Unit,
 ) {
@@ -33,18 +32,17 @@ internal fun OpenActionPopup(
             )
         }
 
-        Popup {
-            Box(
-                modifier = Modifier
-                    .background(backdropColor.value)
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                CapsuleOpenAction(
-                    onComplete = onComplete,
-                )
-            }
+        Box(
+            modifier = Modifier
+                .background(backdropColor.value)
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+            CapsuleOpenAction(
+                onComplete = onComplete,
+            )
         }
+
     }
 }
 

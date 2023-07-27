@@ -48,7 +48,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Popup
 import androidx.compose.ui.zIndex
 import me.tbsten.gachagachazamurai.domain.PrizeItem
 import me.tbsten.gachagachazamurai.feature.gacha.R
@@ -56,7 +55,7 @@ import me.tbsten.gachagachazamurai.ui.modifier.aspectRatio
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun GachaResultPopup(
+fun GachaResult(
     state: GachaResultState,
     prizeItem: PrizeItem,
     onClose: () -> Unit,
@@ -69,66 +68,64 @@ fun GachaResultPopup(
                 .apply { this.targetState = true }
         }
 
-        Popup {
-            DisposableEffect(Unit) {
-                onDispose { onClose() }
-            }
-
-            fun <T> cardAnimSpec() = tween<T>(700, 500)
-            fun <T> moreButtonAnimSpec() = tween<T>(700, 2200)
-            fun <T> backButtonAnimSpec() = tween<T>(700, 2600)
-
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                GachaResultCard(
-                    visibleState = visibleState,
-                    prizeItem = prizeItem,
-                    imageEnterTransition = scaleIn(tween(400), initialScale = 0.5f)
-                            + fadeIn(tween(500)),
-                    cardEnterTransition = slideInVertically(cardAnimSpec()) { it / 2 }
-                            + fadeIn(cardAnimSpec()),
-                    rarityEnterTransition = scaleIn(
-                        tween(100, 1400),
-                        initialScale = 1.2f,
-                        transformOrigin = TransformOrigin(0f, 0f),
-                    )
-                            + fadeIn(tween(100, 1400)),
-                )
-
-                Spacer(Modifier.height(16.dp))
-
-                AnimatedVisibility(
-                    visibleState = visibleState,
-                    enter = slideInVertically(moreButtonAnimSpec()) { 100 }
-                            + fadeIn(moreButtonAnimSpec()),
-                ) {
-                    OutlinedButton(
-                        onClick = onRestart,
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
-                    ) {
-                        Text(text = "もう一度引く", fontSize = 20.sp)
-                    }
-                }
-
-                Spacer(Modifier.height(16.dp))
-
-                AnimatedVisibility(
-                    visibleState = visibleState,
-                    enter = slideInVertically(backButtonAnimSpec()) { 100 }
-                            + fadeIn(backButtonAnimSpec()),
-                ) {
-                    TextButton(
-                        onClick = onBackTop,
-                    ) {
-                        Text("トップに戻る")
-                    }
-                }
-            }
-
+        DisposableEffect(Unit) {
+            onDispose { onClose() }
         }
+
+        fun <T> cardAnimSpec() = tween<T>(700, 500)
+        fun <T> moreButtonAnimSpec() = tween<T>(700, 2200)
+        fun <T> backButtonAnimSpec() = tween<T>(700, 2600)
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            GachaResultCard(
+                visibleState = visibleState,
+                prizeItem = prizeItem,
+                imageEnterTransition = scaleIn(tween(400), initialScale = 0.5f)
+                        + fadeIn(tween(500)),
+                cardEnterTransition = slideInVertically(cardAnimSpec()) { it / 2 }
+                        + fadeIn(cardAnimSpec()),
+                rarityEnterTransition = scaleIn(
+                    tween(100, 1400),
+                    initialScale = 1.2f,
+                    transformOrigin = TransformOrigin(0f, 0f),
+                )
+                        + fadeIn(tween(100, 1400)),
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            AnimatedVisibility(
+                visibleState = visibleState,
+                enter = slideInVertically(moreButtonAnimSpec()) { 100 }
+                        + fadeIn(moreButtonAnimSpec()),
+            ) {
+                OutlinedButton(
+                    onClick = onRestart,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+                ) {
+                    Text(text = "もう一度引く", fontSize = 20.sp)
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            AnimatedVisibility(
+                visibleState = visibleState,
+                enter = slideInVertically(backButtonAnimSpec()) { 100 }
+                        + fadeIn(backButtonAnimSpec()),
+            ) {
+                TextButton(
+                    onClick = onBackTop,
+                ) {
+                    Text("トップに戻る")
+                }
+            }
+        }
+
     }
 }
 
