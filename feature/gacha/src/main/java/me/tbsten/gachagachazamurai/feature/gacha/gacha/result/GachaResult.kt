@@ -1,4 +1,4 @@
-package me.tbsten.gachagachazamurai.feature.gacha.gacha
+package me.tbsten.gachagachazamurai.feature.gacha.gacha.result
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition

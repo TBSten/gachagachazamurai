@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.OpenAction
+import me.tbsten.gachagachazamurai.feature.gacha.gacha.result.GachaResult
 
 @Composable
 fun GachaPlayScreen(
