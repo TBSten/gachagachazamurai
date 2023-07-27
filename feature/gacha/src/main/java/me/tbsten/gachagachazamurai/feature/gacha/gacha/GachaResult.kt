@@ -84,24 +84,16 @@ fun GachaResult(
             GachaResultCard(
                 visibleState = visibleState,
                 prizeItem = prizeItem,
-                imageEnterTransition = scaleIn(tween(400), initialScale = 0.5f)
-                        + fadeIn(tween(500)),
-                cardEnterTransition = slideInVertically(cardAnimSpec()) { it / 2 }
-                        + fadeIn(cardAnimSpec()),
-                rarityEnterTransition = scaleIn(
-                    tween(100, 1400),
-                    initialScale = 1.2f,
-                    transformOrigin = TransformOrigin(0f, 0f),
-                )
-                        + fadeIn(tween(100, 1400)),
+                imageEnterTransition = Animations.image,
+                cardEnterTransition = Animations.card,
+                rarityEnterTransition = Animations.rarity,
             )
 
             Spacer(Modifier.height(16.dp))
 
             AnimatedVisibility(
                 visibleState = visibleState,
-                enter = slideInVertically(moreButtonAnimSpec()) { 100 }
-                        + fadeIn(moreButtonAnimSpec()),
+                enter = Animations.moreButton,
             ) {
                 OutlinedButton(
                     onClick = onRestart,
@@ -115,8 +107,7 @@ fun GachaResult(
 
             AnimatedVisibility(
                 visibleState = visibleState,
-                enter = slideInVertically(backButtonAnimSpec()) { 100 }
-                        + fadeIn(backButtonAnimSpec()),
+                enter = Animations.backButton,
             ) {
                 TextButton(
                     onClick = onBackTop,
@@ -257,3 +248,56 @@ private fun RarityImage(
 //            ),
     )
 }
+
+@OptIn(ExperimentalAnimationApi::class)
+private object Animations {
+    val image =
+        transitions(
+            scaleIn(tween(400), initialScale = 0.5f),
+            fadeIn(tween(500)),
+        )
+    val card =
+        transitions(
+            slideInVertically(
+                tween(delayMillis = 500, durationMillis = 700),
+                initialOffsetY = { it / 2 },
+            ),
+            fadeIn(
+                tween(delayMillis = 500, durationMillis = 700),
+            ),
+        )
+    val rarity =
+        transitions(
+            scaleIn(
+                tween(100, 1400),
+                initialScale = 1.2f,
+                transformOrigin = TransformOrigin(0f, 0f),
+            ),
+            fadeIn(
+                tween(100, 1400),
+            ),
+        )
+    val moreButton =
+        transitions(
+            slideInVertically(
+                tween(delayMillis = 2200, durationMillis = 700),
+                initialOffsetY = { 100 },
+            ),
+            fadeIn(
+                tween(delayMillis = 2200, durationMillis = 700),
+            ),
+        )
+    val backButton =
+        transitions(
+            slideInVertically(
+                tween(delayMillis = 2600, durationMillis = 700),
+                initialOffsetY = { 100 },
+            ),
+            fadeIn(
+                tween(delayMillis = 2600, durationMillis = 700),
+            ),
+        )
+}
+
+fun transitions(vararg transitions: EnterTransition) =
+    transitions.reduce { acc, enterTransition -> acc + enterTransition }
