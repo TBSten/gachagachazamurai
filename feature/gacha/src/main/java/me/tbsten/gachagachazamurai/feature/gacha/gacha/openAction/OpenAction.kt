@@ -51,4 +51,10 @@ class OpenActionState(
     open: Boolean,
 ) {
     var open by mutableStateOf(open)
+    fun show() {
+        open = true
+    }
+    fun hide() {
+        open = false
+    }
 }

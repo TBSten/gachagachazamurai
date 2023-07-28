@@ -34,10 +34,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,12 +53,10 @@ import me.tbsten.gachagachazamurai.domain.PrizeItem
 import me.tbsten.gachagachazamurai.feature.gacha.R
 import me.tbsten.gachagachazamurai.ui.modifier.aspectRatio
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun GachaResult(
     state: GachaResultState,
     prizeItem: PrizeItem,
-    onClose: () -> Unit,
     onRestart: () -> Unit,
     onBackTop: () -> Unit,
 ) {
@@ -66,10 +64,6 @@ fun GachaResult(
         val visibleState = remember {
             MutableTransitionState(false)
                 .apply { this.targetState = true }
-        }
-
-        DisposableEffect(Unit) {
-            onDispose { onClose() }
         }
 
         fun <T> cardAnimSpec() = tween<T>(700, 500)
@@ -120,10 +114,18 @@ fun GachaResult(
     }
 }
 
-@Stable
-data class GachaResultState(
-    val open: Boolean,
-)
+class GachaResultState(
+    open: Boolean,
+) {
+    var open by mutableStateOf(open)
+    fun show() {
+        open = true
+    }
+
+    fun hide() {
+        open = false
+    }
+}
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

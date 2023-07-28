@@ -3,7 +3,6 @@ package me.tbsten.gachagachazamurai.feature.gacha.gacha
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -13,6 +12,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.OpenAction
 import me.tbsten.gachagachazamurai.feature.gacha.gacha.result.GachaResult
 
+
+/**
+ * ガチャのステップは以下の通り
+ *  BeforeStart
+ *      ↓ ガチャを引くボタン
+ *  Spinning(0.0)
+ *      ↓ タップ
+ *  Spinning(0.5)
+ *      ↓ タップ
+ *  RunningOpenAction
+ *      ↓ 開封時のアクション（タップやチェックをなぞるなど）
+ *  Opened
+ */
+
 @Composable
 fun GachaPlayScreen(
     gachaPlayViewModel: GachaPlayViewModel = hiltViewModel(),
@@ -21,49 +34,48 @@ fun GachaPlayScreen(
 ) {
     val prizeItem = gachaPlayViewModel.prizeItem.collectAsState().value
 
-    val gachaStepState = rememberGachaStepState()
-    val gachaState = gachaStepState.gachaState
-    val openActionState = gachaStepState.openActionState
-    val gachaResultState = gachaStepState.gachaResultState
+    val gachaState = gachaPlayViewModel.gachaState
+    val openActionState = gachaPlayViewModel.openActionState
+    val gachaResultState = gachaPlayViewModel.gachaResultState
 
     Box {
         Box(Modifier.fillMaxSize()) {
-            Text("${gachaStepState.currentStep}", modifier = Modifier.align(Alignment.TopCenter))
             Gacha(
                 modifier = Modifier
                     .padding(48.dp)
                     .align(Alignment.Center)
                     .fillMaxSize(),
                 gachaState = gachaState,
-                onRotate = { gachaState.handleRotate += 180 },
-                onRotateFinished = { gachaStepState.next() },
+                onRotate = {
+                    gachaPlayViewModel.rotate()
+                },
+                onRotateFinished = {
+                    if (it == 360f) {
+                        gachaPlayViewModel.startOpenAction()
+                    }
+                },
             )
             StartButton(
                 modifier = Modifier.padding(bottom = 40.dp).align(Alignment.BottomCenter),
                 onStart = {
-                    gachaStepState.next()
-                    gachaState.enableRotate = true
+                    gachaPlayViewModel.startGacha()
                 },
             )
         }
 
         OpenAction(
             state = openActionState,
-            onComplete = {
-                gachaStepState.currentStep = GachaStep.opened
-            },
+            onComplete = gachaPlayViewModel::showResult,
         )
 
         if (prizeItem != null) {
             GachaResult(
                 state = gachaResultState,
                 prizeItem = prizeItem,
-                onClose = { gachaStepState.currentIndex = 0 },
                 onRestart = renavigate,
                 onBackTop = backTop,
             )
         }
-
 
     }
 

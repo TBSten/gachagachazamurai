@@ -135,6 +135,12 @@ class GachaState(
     var scale by mutableStateOf(scale)
     var enableRotate by mutableStateOf(enableRotate)
     var handleRotate by mutableStateOf(handleRotate)
+    fun rotate(deg: Float) {
+        if (!enableRotate) {
+            throw IllegalStateException("gacha rotate is disabled .")
+        }
+        handleRotate += deg
+    }
 }
 
 private fun Modifier.animateGacha(state: GachaState): Modifier = composed {
