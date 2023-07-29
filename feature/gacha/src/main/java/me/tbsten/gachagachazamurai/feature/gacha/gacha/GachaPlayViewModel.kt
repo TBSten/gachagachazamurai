@@ -1,5 +1,6 @@
 package me.tbsten.gachagachazamurai.feature.gacha.gacha
 
+import androidx.annotation.DrawableRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,6 +11,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.tbsten.gachagachazamurai.data.prizeItem.PrizeItemRepository
 import me.tbsten.gachagachazamurai.domain.PrizeItem
+import me.tbsten.gachagachazamurai.feature.gacha.NavigationTextState
+import me.tbsten.gachagachazamurai.feature.gacha.R
 import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.OpenActionState
 import me.tbsten.gachagachazamurai.feature.gacha.gacha.result.GachaResultState
 import javax.inject.Inject
@@ -47,13 +50,18 @@ class GachaPlayViewModel @Inject constructor(
         GachaResultState(
             open = false,
         )
+    val navigationTextState =
+        NavigationTextState()
 
     fun startGacha() {
         gachaState.enableRotate = true
         gachaState.scale = 1.0f
+
+        navigationTextState.show(R.drawable.tap_1, "タップ !")
     }
 
     fun rotate() {
+        navigationTextState.clear()
         gachaState.rotate(180f)
     }
 
@@ -63,5 +71,13 @@ class GachaPlayViewModel @Inject constructor(
 
     fun showResult() {
         gachaResultState.show()
+    }
+
+    fun showNavigationText(@DrawableRes drawable: Int, text: String) {
+        navigationTextState.show(drawable, text)
+    }
+
+    fun clearNavigationText() {
+        navigationTextState.clear()
     }
 }

@@ -39,6 +39,8 @@ import me.tbsten.gachagachazamurai.ui.modifier.clickableNoRipple
 @Composable
 internal fun CapsuleOpenAction(
     onComplete: () -> Unit,
+    onShowNavigationText: (drawable: Int, String) -> Unit,
+    onClearNavigationText: () -> Unit,
 ) {
     var openCapsule by remember { mutableStateOf(false) }
 
@@ -46,9 +48,16 @@ internal fun CapsuleOpenAction(
     val capsuleTopPainter = painterResource(R.drawable.capsule_top)
     val capsuleBottomPainter = painterResource(R.drawable.capsule_bottom)
 
+    LaunchedEffect(Unit) {
+        onShowNavigationText(R.drawable.tap_2, "TAP !")
+    }
+
     BoxWithConstraints(
         modifier = Modifier
-            .clickableNoRipple { openCapsule = true }
+            .clickableNoRipple {
+                onClearNavigationText()
+                openCapsule = true
+            }
             .fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {

@@ -8,7 +8,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
+import me.tbsten.gachagachazamurai.feature.gacha.NavigationText
+import me.tbsten.gachagachazamurai.feature.gacha.R
 import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.OpenAction
 import me.tbsten.gachagachazamurai.feature.gacha.gacha.result.GachaResult
 
@@ -37,8 +40,13 @@ fun GachaPlayScreen(
     val gachaState = gachaPlayViewModel.gachaState
     val openActionState = gachaPlayViewModel.openActionState
     val gachaResultState = gachaPlayViewModel.gachaResultState
+    val navigationTextState = gachaPlayViewModel.navigationTextState
 
     Box {
+        NavigationText(
+            modifier = Modifier.align(Alignment.TopCenter).zIndex(3f),
+            state = navigationTextState,
+        )
         Box(Modifier.fillMaxSize()) {
             Gacha(
                 modifier = Modifier
@@ -50,7 +58,9 @@ fun GachaPlayScreen(
                     gachaPlayViewModel.rotate()
                 },
                 onRotateFinished = {
-                    if (it == 360f) {
+                    if (it < 360f) {
+                        gachaPlayViewModel.showNavigationText(R.drawable.tap_1, "タップ")
+                    } else {
                         gachaPlayViewModel.startOpenAction()
                     }
                 },
@@ -65,6 +75,10 @@ fun GachaPlayScreen(
 
         OpenAction(
             state = openActionState,
+            onShowNavigationText = { drawable, text ->
+                gachaPlayViewModel.showNavigationText(drawable, text)
+            },
+            onClearNavigationText = { gachaPlayViewModel.clearNavigationText() },
             onComplete = gachaPlayViewModel::showResult,
         )
 

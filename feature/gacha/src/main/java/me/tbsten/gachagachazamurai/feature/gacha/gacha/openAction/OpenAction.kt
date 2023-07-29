@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 @Composable
 internal fun OpenAction(
     state: OpenActionState,
+    onShowNavigationText: (drawable: Int, String) -> Unit,
+    onClearNavigationText: () -> Unit,
     onComplete: () -> Unit,
 ) {
     if (state.open) {
@@ -39,6 +41,8 @@ internal fun OpenAction(
             contentAlignment = Alignment.Center,
         ) {
             CapsuleOpenAction(
+                onShowNavigationText = onShowNavigationText,
+                onClearNavigationText = onClearNavigationText,
                 onComplete = onComplete,
             )
         }
@@ -54,6 +58,7 @@ class OpenActionState(
     fun show() {
         open = true
     }
+
     fun hide() {
         open = false
     }
