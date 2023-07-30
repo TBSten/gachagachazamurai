@@ -11,8 +11,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import me.tbsten.gachagachazamurai.feature.gacha.gacha
-import me.tbsten.gachagachazamurai.feature.gacha.gachaRoute
 import me.tbsten.gachagachazamurai.feature.settings.settings
+import me.tbsten.gachagachazamurai.feature.top.top
+import me.tbsten.gachagachazamurai.feature.top.topRoute
 import me.tbsten.gachagachazamurai.ui.theme.GachaGachaZamuraiTheme
 
 @AndroidEntryPoint
@@ -35,8 +36,9 @@ fun AppRoutes() {
 
     NavHost(
         navController = navController,
-        startDestination = gachaRoute,
+        startDestination = topRoute,
     ) {
+        top(navController)
         settings(navController)
         gacha(navController)
     }
