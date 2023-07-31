@@ -34,7 +34,7 @@ class PrizeItemRepository @Inject constructor(
     suspend fun insertPrizeItem(prizeItem: PrizeItem) {
         var saveTargetPrizeItem = prizeItem
         val imageUri = prizeItem.image
-        if (imageUri?.scheme === "content") {
+        if (imageUri?.scheme == "content") {
             // 画像を保存
             val fileName = imageUri.hashCode().toString(36)
             val savedImageUri = fileSource.save(imageUri, fileName)
@@ -46,7 +46,7 @@ class PrizeItemRepository @Inject constructor(
     suspend fun updatePrizeItem(prizeItem: PrizeItem) {
         var saveTargetPrizeItem = prizeItem
         val imageUri = prizeItem.image
-        if (imageUri?.scheme === "content") {
+        if (imageUri?.scheme == "content") {
             // 画像を保存
             val fileName = imageUri.hashCode().toString(36)
             val savedImageUri = fileSource.save(imageUri, fileName)
