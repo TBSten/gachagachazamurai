@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import me.tbsten.gachagachazamurai.ui.component.ImageSelect
 
 @Composable
 fun AddPrizeItemScreen(
@@ -44,6 +45,10 @@ fun AddPrizeItemScreen(
             label = { Text("景品名") },
             modifier = Modifier.fillMaxWidth(),
             minLines = 3,
+        )
+        ImageSelect(
+            file = editingPrizeItem.image,
+            onFileChange = { addPrizeItemViewModel.updatePrizeItem(editingPrizeItem.copy(image = it)) },
         )
         Spacer(Modifier.height(24.dp))
         Button(

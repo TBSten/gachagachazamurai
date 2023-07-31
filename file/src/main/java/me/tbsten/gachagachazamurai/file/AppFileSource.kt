@@ -5,8 +5,10 @@ import android.net.Uri
 import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.io.path.createDirectory
 
+@Singleton
 class AppFileSource @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
