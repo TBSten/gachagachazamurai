@@ -102,7 +102,7 @@ private fun TopTitle(
 
     AnimatedVisibility(
         visibleState = visibleState,
-        enter = fadeIn(tween(1500, 1000)),
+        enter = fadeIn(tween(1500, 500)),
         modifier = modifier,
     ) {
 
