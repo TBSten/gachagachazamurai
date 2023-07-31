@@ -115,7 +115,11 @@ private fun TopTitle(
                 .padding(vertical = 8.dp, horizontal = 32.dp),
             contentAlignment = Alignment.Center,
         ) {
-            Text("ガチャガチャ⭐️ザムライ", textAlign = TextAlign.Center)
+            Text(
+                text = "ガチャガチャ⭐️ザムライ",
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
         }
 
     }
