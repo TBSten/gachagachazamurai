@@ -35,6 +35,6 @@ fun PrizeItem.toEntity(): PrizeItemEntity =
         detail = this.detail,
         stock = this.stock,
         purchase = this.purchase,
-        image = this.image.toString(),
+        image = this.image?.toString(),
         rarity = this.rarity,
     )
