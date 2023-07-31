@@ -6,12 +6,15 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -31,6 +34,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -43,12 +47,19 @@ import coil.compose.AsyncImage
 internal fun TopScreen(
     topViewModel: TopViewModel = hiltViewModel(),
     gotoGachaScreen: () -> Unit,
+    gotoSettingScreen: () -> Unit,
 ) {
     val images = topViewModel.images.collectAsState().value
 
     Box(Modifier.fillMaxSize()) {
         if (images != null) {
-            TopImages(images)
+            TopImages(
+                images = images,
+                modifier = Modifier
+                    .onSecretGesture {
+                        gotoSettingScreen()
+                    }
+            )
         }
 
         TopTitle(
@@ -145,5 +156,16 @@ private fun GachaButton(
             .background(containerColor, shape = shape)
             .padding((size / 4) + 4.dp)
             .size(size),
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun Modifier.onSecretGesture(onSecretGesture: () -> Unit) = composed {
+    combinedClickable(
+        onLongClick = onSecretGesture,
+        onClick = {},
+        interactionSource = remember { MutableInteractionSource() },
+        indication = null,
     )
 }

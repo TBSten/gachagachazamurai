@@ -81,6 +81,7 @@ dependencies {
     implementation(project(":data:topImage"))
     implementation(project(":domain"))
     implementation(project(":feature:gacha"))
+    implementation(project(":feature:settings"))
 }
 
 kapt {
