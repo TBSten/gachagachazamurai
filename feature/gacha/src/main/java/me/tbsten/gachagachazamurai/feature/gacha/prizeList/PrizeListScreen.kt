@@ -51,6 +51,8 @@ fun PrizeListScreen(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = { gotoGachaPlay() },
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary,
             ) {
                 Icon(Icons.Default.ArrowForwardIos, contentDescription = "ガチャを引く")
                 Text("ガチャを引く")

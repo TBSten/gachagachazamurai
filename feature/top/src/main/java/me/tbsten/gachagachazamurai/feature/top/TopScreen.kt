@@ -133,8 +133,8 @@ private fun GachaButton(
 ) {
     val shape = CircleShape
     val size = 48.dp
-    val containerColor = MaterialTheme.colorScheme.primary
-    val borderColor = MaterialTheme.colorScheme.primaryContainer
+    val containerColor = MaterialTheme.colorScheme.secondary
+    val borderColor = MaterialTheme.colorScheme.secondaryContainer
     Image(
         painter = painterResource(R.drawable.gacha_outlined),
         contentDescription = "ガチャ",
