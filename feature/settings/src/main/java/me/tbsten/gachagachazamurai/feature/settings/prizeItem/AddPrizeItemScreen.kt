@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LocalContentColor
@@ -32,7 +34,7 @@ fun AddPrizeItemScreen(
     val editingPrizeItem by addPrizeItemViewModel.editingPrizeItem.collectAsState()
     val addUiState = addPrizeItemViewModel.addUiState.collectAsState().value
 
-    Column(Modifier.padding(8.dp)) {
+    Column(Modifier.padding(8.dp).verticalScroll(rememberScrollState())) {
         OutlinedTextField(
             value = editingPrizeItem.name,
             onValueChange = { addPrizeItemViewModel.updatePrizeItem(editingPrizeItem.copy(name = it)) },

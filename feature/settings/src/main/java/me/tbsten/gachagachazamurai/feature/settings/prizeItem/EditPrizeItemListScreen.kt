@@ -165,7 +165,7 @@ private fun PrizeItemBottomSheet(
         bottomSheetState = sheetState,
     ) {
         Column(
-            Modifier.fillMaxSize(),
+            Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             val itemPaddingValues = PaddingValues(horizontal = 8.dp)
