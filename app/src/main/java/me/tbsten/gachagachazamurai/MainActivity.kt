@@ -40,7 +40,10 @@ fun AppRoutes() {
     ) {
         top(navController)
         settings(navController)
-        gacha(navController)
+        gacha(
+            navController = navController,
+            backTop = { navController.popBackStack(topRoute, false) },
+        )
     }
 
 }
