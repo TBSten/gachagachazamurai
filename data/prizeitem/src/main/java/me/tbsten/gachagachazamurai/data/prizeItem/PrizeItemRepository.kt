@@ -52,7 +52,7 @@ class PrizeItemRepository @Inject constructor(
             val savedImageUri = fileSource.save(imageUri, fileName)
             saveTargetPrizeItem = prizeItem.copy(image = savedImageUri)
         }
-        prizeItemDao.update(prizeItem.toEntity())
+        prizeItemDao.update(saveTargetPrizeItem.toEntity())
     }
 
     suspend fun deletePrizeItem(prizeItem: PrizeItem) =

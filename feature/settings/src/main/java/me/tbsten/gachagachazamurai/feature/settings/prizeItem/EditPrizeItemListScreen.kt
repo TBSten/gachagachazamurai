@@ -32,7 +32,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Refresh
@@ -74,6 +76,7 @@ import me.tbsten.gachagachazamurai.domain.PrizeItem
 import me.tbsten.gachagachazamurai.ui.component.BottomSheet
 import me.tbsten.gachagachazamurai.ui.component.BottomSheetState
 import me.tbsten.gachagachazamurai.ui.component.Confirm
+import me.tbsten.gachagachazamurai.ui.component.ImageSelect
 import me.tbsten.gachagachazamurai.ui.component.ListItem
 import me.tbsten.gachagachazamurai.ui.component.ScreenTitle
 import me.tbsten.gachagachazamurai.ui.component.rememberBottomSheetState
@@ -182,6 +185,14 @@ private fun PrizeItemBottomSheet(
                         )
                     )
                 },
+            )
+            // 画像
+            if (prizeItem.image == null) {
+                Text("この景品には画像がありません")
+            }
+            ImageSelect(
+                file = prizeItem.image,
+                onFileChange = { onChange(prizeItem.copy(image = it)) },
             )
             // ストック
             StockEdit(
