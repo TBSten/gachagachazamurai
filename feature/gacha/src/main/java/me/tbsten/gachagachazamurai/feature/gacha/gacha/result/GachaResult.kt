@@ -14,7 +14,6 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,15 +39,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import coil.compose.AsyncImage
 import me.tbsten.gachagachazamurai.domain.PrizeItem
 import me.tbsten.gachagachazamurai.feature.gacha.R
 import me.tbsten.gachagachazamurai.ui.modifier.aspectRatio
@@ -158,7 +158,12 @@ private fun GachaResultCard(
                 Box(
                     Modifier.padding(start = 64.dp, end = 64.dp)
                 ) {
-                    Box(Modifier.background(Color.Red).fillMaxWidth().aspectRatio(1f))
+                    AsyncImage(
+                        model = prizeItem.image,
+                        contentDescription = prizeItem.name,
+                        modifier = Modifier.fillMaxWidth().aspectRatio(1f),
+                        contentScale = ContentScale.Fit,
+                    )
                 }
                 RarityImage(
                     rarity = prizeItem.rarity,
