@@ -344,7 +344,7 @@ private fun StockEdit(
             label()
         }
         FlowRow(
-            verticalAlignment = Alignment.CenterVertically,
+            verticalArrangement = Arrangement.Center,
             horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.End),
         ) {
             Text(
