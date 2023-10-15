@@ -15,7 +15,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.insidejokecheck.InsideJokeCheckOpenAction
 import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.mirrortunegame.MirrorTuneGameOpenAction
+import kotlin.math.floor
 
 @Composable
 internal fun OpenAction(
@@ -41,13 +43,26 @@ internal fun OpenAction(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-//            CapsuleOpenAction(
-//            InsideJokeCheckOpenAction(
-            MirrorTuneGameOpenAction(
-                onShowNavigationText = onShowNavigationText,
-                onClearNavigationText = onClearNavigationText,
-                onComplete = onComplete,
-            )
+            val openAction = remember { floor(Math.random() * 3).toInt() }
+            when (openAction) {
+                0 -> CapsuleOpenAction(
+                    onShowNavigationText = onShowNavigationText,
+                    onClearNavigationText = onClearNavigationText,
+                    onComplete = onComplete,
+                )
+
+                1 -> InsideJokeCheckOpenAction(
+                    onShowNavigationText = onShowNavigationText,
+                    onClearNavigationText = onClearNavigationText,
+                    onComplete = onComplete,
+                )
+
+                2 -> MirrorTuneGameOpenAction(
+                    onShowNavigationText = onShowNavigationText,
+                    onClearNavigationText = onClearNavigationText,
+                    onComplete = onComplete,
+                )
+            }
         }
 
     }
