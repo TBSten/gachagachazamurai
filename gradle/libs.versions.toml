@@ -7,10 +7,10 @@ junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 lifecycle-runtime-ktx = "2.6.2"
-activity-compose = "1.7.2"
-compose-bom = "2023.09.02"
+activity-compose = "1.8.0"
+compose-bom = "2023.10.00"
 
-navigation-compose = "2.7.3"
+navigation-compose = "2.7.4"
 
 hilt = "2.44"
 
@@ -26,7 +26,7 @@ room = "2.5.2"
 
 coil = "2.4.0"
 appcompat = "1.6.1"
-material = "1.9.0"
+material = "1.10.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
