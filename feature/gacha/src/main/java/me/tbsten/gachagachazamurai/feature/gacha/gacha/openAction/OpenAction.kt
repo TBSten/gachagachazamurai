@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import me.tbsten.gachagachazamurai.feature.gacha.gacha.openAction.mirrortunegame.MirrorTuneGameOpenAction
 
 @Composable
 internal fun OpenAction(
@@ -40,7 +41,9 @@ internal fun OpenAction(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-            CapsuleOpenAction(
+//            CapsuleOpenAction(
+//            InsideJokeCheckOpenAction(
+            MirrorTuneGameOpenAction(
                 onShowNavigationText = onShowNavigationText,
                 onClearNavigationText = onClearNavigationText,
                 onComplete = onComplete,
