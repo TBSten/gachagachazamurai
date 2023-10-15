@@ -70,7 +70,12 @@ class GachaPlayViewModel @Inject constructor(
     }
 
     fun showResult() {
-        gachaResultState.show()
+        viewModelScope.launch {
+            val prizeItemId =
+                prizeItem.value?.id ?: throw IllegalStateException("not exist prizeItem")
+            prizeItemRepository.payoutPrizeItem(prizeItemId)
+            gachaResultState.show()
+        }
     }
 
     fun showNavigationText(@DrawableRes drawable: Int, text: String) {
